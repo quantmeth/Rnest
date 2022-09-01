@@ -25,7 +25,7 @@ nest(
 
 \item{max.factors}{An optional maximum number of factor to extract. Default is \code{max.factors = ncol(data)}.}
 
-\item{method}{A method to compute loadings and uniquenesses. Two methods are implemented in \code{Rnest} : maximum likelihood \code{method = "lm"} (default) and principal axis factoring \code{method = "paf"}. See details for custom methods.}
+\item{method}{A method used to compute loadings and uniquenesses. Two methods are implemented in \code{Rnest} : maximum likelihood \code{method = "lm"} (default) and principal axis factoring \code{method = "paf"}. See details for custom methods.}
 
 \item{...}{Arguments for \code{method} that can be supplied. See details.}
 }
@@ -38,9 +38,9 @@ An object of class \code{nest} is a list containing the following components:
   \item \code{nfactors} - The number of factors to retains (one by \code{alpha}).
   \item \code{cor} - The supplied correlation matrix.
   \item \code{n} - The number of cases (subjects, participants, or units).
-  \item \code{eig} - The eigenvalues of the supplied correlation matrix.
-  \item \code{CI} - The confidence intervals.
+  \item \code{values} - The eigenvalues of the supplied correlation matrix.
   \item \code{alpha} - The type I error rate.
+  \item \code{method} - The method used to compute loadings and uniquenesses.
   \item \code{Eig} - A list of simulated eigenvalues.
 }
 }

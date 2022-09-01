@@ -7,7 +7,7 @@
 #' @param nrep The number of replications to simulate. Default is 1000.
 #' @param alpha A vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.
 #' @param max.factors An optional maximum number of factor to extract. Default is \code{max.factors = ncol(data)}.
-#' @param method A method to compute loadings and uniquenesses. Two methods are implemented in \code{Rnest} : maximum likelihood \code{method = "lm"} (default) and principal axis factoring \code{method = "paf"}. See details for custom methods.
+#' @param method A method used to compute loadings and uniquenesses. Two methods are implemented in \code{Rnest} : maximum likelihood \code{method = "lm"} (default) and principal axis factoring \code{method = "paf"}. See details for custom methods.
 #' @param ... Arguments for \code{method} that can be supplied. See details.
 #'
 #'
@@ -26,9 +26,9 @@
 #'   \item \code{nfactors} - The number of factors to retains (one by \code{alpha}).
 #'   \item \code{cor} - The supplied correlation matrix.
 #'   \item \code{n} - The number of cases (subjects, participants, or units).
-#'   \item \code{eig} - The eigenvalues of the supplied correlation matrix.
-#'   \item \code{CI} - The confidence intervals.
+#'   \item \code{values} - The eigenvalues of the supplied correlation matrix.
 #'   \item \code{alpha} - The type I error rate.
+#'   \item \code{method} - The method used to compute loadings and uniquenesses.
 #'   \item \code{Eig} - A list of simulated eigenvalues.
 #' }
 #'
@@ -46,12 +46,9 @@
 #' @references
 #' Achim, A. (2017). Testing the number of required dimensions in exploratory factor analysis. \emph{The Quantitative Methods for Psychology}, \emph{13}(1), 64-74. \url{https://doi.org/10.20982/tqmp.13.1.p064}
 #'
-#' @import ggplot2
+
 #' @import stats
-#' @importFrom crayon red blue green
-#' @importFrom scales pretty_breaks
-#' @importFrom grDevices grey
-#' @export
+#' @export nest 
 #'
 #' @examples
 #' nest(ex_2factors, n = 100)
@@ -59,16 +56,16 @@
 nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.factors = ncol(data), method = c("ml"), ...){
   
   R <- prepare.nest(data, n = n)
-  R$CI <- paste0((1 - sort(alpha)) * 100,"%")
+  CI <- paste0((1 - sort(alpha)) * 100,"%")
   R$alpha <- alpha
+  R$method <- method
   R$Eig <- list()
-  
   test.eig <- rep(TRUE, length(R$alpha))
   
   nfactors <- t(setNames(data.frame(matrix(0,
                                            ncol = length(R$alpha),
                                            nrow = 1)),
-                         nm = R$CI))
+                         nm = CI))
   colnames(nfactors) <- "nfactors"
   
   for (i in 0:max.factors){
@@ -80,7 +77,7 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.factors = ncol(da
       
       if (i == 0) {
         
-        M <- diag(length(R$eig))
+        M <- diag(length(R$values))
         
       } else {
         
@@ -89,6 +86,7 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.factors = ncol(da
                           n = R$n,
                           factors = i, 
                           ...))
+        M <- cbind(M$loadings, diag(sqrt(M$uniquenesses)))
         
       }
       
@@ -101,75 +99,24 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.factors = ncol(da
                                    FUN = quantile,
                                    probs = 1-R$alpha),
                              nrow = length(R$alpha),
-                             dimnames = list(R$CI))
+                             dimnames = list(CI))
       
-      test.eig <- as.logical((R$Eig[[i+1]][,i+1] <= R$eig[i+1]) * test.eig)
+      test.eig <- as.logical((R$Eig[[i+1]][,i+1] <= R$values[i+1]) * test.eig)
       nfactors <- nfactors + test.eig
     }
     
     
   }
   
-  R <- structure(c(list(nfactors = nfactors), R), class = "nest")
-  
-}
-
-# plot.nest ####
-plot.nest <- function(R){
-  
-  df <- data2plot(R)
-  
-  ggplot2::ggplot(df,
-                  mapping = aes_string(x = "Position",
-                                       y = "Eigenvalues",
-                                       color = "Confidence")) +
-    geom_line(linetype = "dashed") +
-    geom_point() +
-    scale_color_manual(values = c(grey(seq(0.75, .2, length.out = length(R$alpha))), "blue")) +
-    scale_x_continuous(breaks = scales::pretty_breaks())+
-    scale_y_continuous(breaks = scales::pretty_breaks()) +
-    labs(title = "Sequential parallel analysis") +
-    theme(legend.position = c(.8, .8))
-  
-  return(data2plot = df)
-  
-}
-
-# data2plot ####
-data2plot <- function(R){
-  df <- data.frame(Position = 1:length(c(R$eig)),
-                   Eigenvalues = c(R$eig),
-                   Confidence = c("Original")
-  )
-  
-  for(i in 1:length(R$Eig)){
-    df <- rbind(df, data.frame(Position = rep(i, length(R$alpha)),
-                               Eigenvalues = R$Eig[[i]][,i],
-                               Confidence = R$CI))
-  }
-  
-  rownames(df) <- NULL
-  
-  return(df)
-}
-
-# print.nest ####
-print.nest <- function(R){
-  for(i in 1:length(R$alpha)){
-    al <- paste0("At ",R$CI[i]," confidence", sep = "")
-    cat(al, ", NEST suggests ", crayon::blue(R$nfactors[i,], .s(R$nfactors[i,], "factor")), ". \n", sep = "")
-  }
-}
-
-# summary.nest ####
-# TODO
-summary.nest <- function(R){
+  structure(c(list(nfactors = nfactors), R), class = "nest")
   
 }
 
 # prepare.nest ####
 prepare.nest <- function(data, n = NULL){
+  
   out <- list()
+  
   if(isSymmetric.matrix(data)){
     
     if(all(diag(data) == 1)){
@@ -189,14 +136,11 @@ prepare.nest <- function(data, n = NULL){
   }
   
   p <- ncol(data)
-  eig <- eigen(out$cor, symmetric = TRUE)
-  out$eig <- t(as.matrix(eig$values))
+  out$values <- t(as.matrix(eigen(out$cor, symmetric = TRUE)$values))
   
-  if((length(Re(out$eig)) != p) && (sum(out$eig) != p)){
+  if((length(Re(out$values)) != p) && (sum(out$values) != p)){
     stop("Correlation matrix is not positive semi definite")
   }
-  
-  # out$ld <- eig$vectors %*% diag(sqrt(eig$values))
   
   return(out)
 }
@@ -237,40 +181,14 @@ prepare.nest <- function(data, n = NULL){
 # paf ####
 paf <- function(covmat, factors, ...){
   fa <- .paf(covmat = covmat, factors = factors, ...)
-  M <- cbind(fa$loadings, diag(sqrt(fa$uniquenesses)))
-  M
+  list(loadings = fa$loadings, uniquenesses = fa$uniquenesses)
 }
 
 # ml ####
 ml <- function(covmat, n, factors, ...){
-  fa <- factanal(covmat = covmat, n.obs = n, factors = factors, ...)
-  M <- cbind(fa$loadings, diag(sqrt(fa$uniquenesses)))
-  M
+  fa <- factanal(covmat = covmat, n.obs = n, factors = c(factors), ...)
+  list(loadings = fa$loadings[], uniquenesses = fa$uniquenesses)
 }
 
-# .s ####
-.s <- function(x, w = NULL){
-  paste0(w, c("s")[x>1])
-}
-
-# loadings.nest ####
-loadings <- function(R, nfactors = R$nfactors, method = R$method, ...){
-  if(class(R) == "SPA"){
-    
-    if(any(nfactors == 0)) stop("The number of factor is 0")
-    if(length(nfactors) > 1) stop("Choose a number of factors to extract loadings.")
-    M <- do.call(method[[1]],
-                 list(covmat = R$cor,
-                      n = R$n,
-                      factors = nfactors, 
-                      ...))
-    M[,1:nfactors]
-    
-  } else {
-    
-    stats::loadings(R)
-    
-  }
-}
 
 
