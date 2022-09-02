@@ -2,7 +2,7 @@
 % Please edit documentation in R/loadings.R
 \name{loadings}
 \alias{loadings}
-\title{Title}
+\title{Print Loadings in NEST}
 \usage{
 loadings(x, nfactors = x$nfactors, method = x$method, ...)
 }
@@ -16,7 +16,7 @@ loadings(x, nfactors = x$nfactors, method = x$method, ...)
 \item{...}{further arguments to methods in "nest" or the \code{stats::loadings} function.}
 }
 \description{
-Title
+Print Loadings in NEST
 }
 \note{
 See \code{stats::loadings} for the original documentation.

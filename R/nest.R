@@ -34,8 +34,6 @@
 #'
 #' @section Generic function:
 #'
-#' \code{summary.nest} Return a summary of the results.
-#'
 #' \code{plot.nest} Scree plot of the eigenvalues and the simulated confidence intervals for \code{alpha}.
 #'
 #' \code{loadings} Extract loadings. It does not overwrite \code{stat::loadings}.
@@ -46,9 +44,8 @@
 #' @references
 #' Achim, A. (2017). Testing the number of required dimensions in exploratory factor analysis. \emph{The Quantitative Methods for Psychology}, \emph{13}(1), 64-74. \url{https://doi.org/10.20982/tqmp.13.1.p064}
 #'
-
 #' @import stats
-#' @export nest 
+#' @export  
 #'
 #' @examples
 #' nest(ex_2factors, n = 100)

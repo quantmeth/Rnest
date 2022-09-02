@@ -57,8 +57,6 @@ There is two \code{method} already implemented in \code{nest} to extract loading
 \section{Generic function}{
 
 
-\code{summary.nest} Return a summary of the results.
-
 \code{plot.nest} Scree plot of the eigenvalues and the simulated confidence intervals for \code{alpha}.
 
 \code{loadings} Extract loadings. It does not overwrite \code{stat::loadings}.

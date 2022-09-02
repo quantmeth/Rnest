@@ -1,4 +1,4 @@
-#' Title
+#' Print Loadings in NEST
 #'
 #' @param x an object of class "nest".
 #' @param nfactors The number of factors to retains.
@@ -15,14 +15,20 @@ loadings <- function(x, nfactors = x$nfactors, method = x$method, ...){
   if(class(x) == "nest"){
     
     if(any(nfactors == 0)) stop("The number of factor is 0")
-    if(length(nfactors) > 1) stop("Choose a number of factors to extract loadings.")
+  
+    L <- list()
+    
+    for(i in 1:length(x$alpha)){
     M <- do.call(method[[1]],
                  list(covmat = x$cor,
                       n = x$n,
-                      factors = nfactors, 
-                      ...))
+                      factors = nfactors[i]))
+    L[[i]] <- M$loadings
     
-    return(loadings = M$loadings)
+    }
+    names(L) <- rownames(nfactors)
+    
+    return(loadings = L)
     
   } else {
     
