@@ -31,7 +31,7 @@ plot.nest <- function(x, y, ...){
     scale_color_manual(values = c(grey(seq(0.75, .2, length.out = length(x$alpha))), "blue")) +
     scale_x_continuous(breaks = scales::pretty_breaks())+
     scale_y_continuous(breaks = scales::pretty_breaks()) +
-    labs(title = "Sequential parallel analysis") +
+    labs(title = "Next Eigenvalues Sequential Test") +
     theme(legend.position = c(.8, .8))
   
   

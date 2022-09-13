@@ -16,7 +16,7 @@
 #' 
 #' At \eqn{k = 1}, NEST and parallel analysis are identical. Both use an Identity matrix as the correlation matrix. Once the first hypothesis is rejected, NEST uses a correlation matrix based on the loadings and uniquenesses of the \eqn{k^{th}} factorial structure. NEST then resamples the eigenvalues of this new correlation matrix. NEST stops when the $k_1^2$ eigenvalues is within the confidence interval.  
 #' 
-#' There is two \code{method} already implemented in \code{nest} to extract loadings and uniquenesses: maximum likelihood (\code{"ml"}; default) and principal axis factoring (\code{"paf"}). The functions use as arguments: \code{covmat}, \code{n}, \code{factors}, and \code{...} (supplementary arguments passed by \code{nest}). They return \code{loadings} and \code{uniquenesses}. Any other user-defined functions can be used as long as it programmed accordingly.
+#' There is two \code{method} already implemented in \code{nest} to extract loadings and uniquenesses: maximum likelihood (\code{"ml"}; default), principal axis factoring (\code{"paf"}), and minimum rank factor analysis (\code{"mrfa"}). The functions use as arguments: \code{covmat}, \code{n}, \code{factors}, and \code{...} (supplementary arguments passed by \code{nest}). They return \code{loadings} and \code{uniquenesses}. Any other user-defined functions can be used as long as it is programmed likewise.
 #'
 #' @return \code{nest} return an object of class code{nest}. The functions \code{summary} and \code{plot} are used to obtain and show a summary of the results.
 #' 
@@ -45,12 +45,13 @@
 #' Achim, A. (2017). Testing the number of required dimensions in exploratory factor analysis. \emph{The Quantitative Methods for Psychology}, \emph{13}(1), 64-74. \url{https://doi.org/10.20982/tqmp.13.1.p064}
 #'
 #' @import stats
+#' @import EFA.MRFA
 #' @export  
 #'
 #' @examples
 #' nest(ex_2factors, n = 100)
 #' nest(mtcars)
-nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.factors = ncol(data), method = c("ml"), ...){
+nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.factors = ncol(data), method = "ml", ...){
   
   R <- prepare.nest(data, n = n)
   CI <- paste0((1 - sort(alpha)) * 100,"%")
@@ -185,6 +186,12 @@ paf <- function(covmat, factors, ...){
 ml <- function(covmat, n, factors, ...){
   fa <- factanal(covmat = covmat, n.obs = n, factors = c(factors), ...)
   list(loadings = fa$loadings[], uniquenesses = fa$uniquenesses)
+}
+
+mrfa <- function(covmat, n, factors, ...){
+  fa <- EFA.MRFA::mrfa(SIGMA = covmat, dimensionality = factors)
+  #fa <- factanal(covmat = covmat, n.obs = n, factors = c(factors), ...)
+  list(loadings = fa$A, uniquenesses = 1-fa$gam)
 }
 
 
