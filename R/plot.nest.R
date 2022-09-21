@@ -2,9 +2,9 @@
 #'
 #' @description Scree plot of the eigenvalues and the \code{(1-alpha)*100\%} confidence intervals derived from the resampled eigenvalues supplied to \code{nest}.
 #' 
-#' @param x an object of class "nest".
-#' @param y further arguments for other methods, ignored for "nest".
-#' @param ... further arguments for other methods, ignored for "nest".
+#' @param x An object of class "nest".
+#' @param y Further arguments for other methods, ignored for "nest".
+#' @param ... Further arguments for other methods, ignored for "nest".
 #' 
 #' @note This function is more interesting with many \code{alpha} values.
 #'

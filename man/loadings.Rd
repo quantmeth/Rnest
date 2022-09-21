@@ -7,13 +7,13 @@
 loadings(x, nfactors = x$nfactors, method = x$method, ...)
 }
 \arguments{
-\item{x}{an object of class "nest".}
+\item{x}{An object of class "nest".}
 
 \item{nfactors}{The number of factors to retains.}
 
 \item{method}{A method used to compute loadings and uniquenesses.}
 
-\item{...}{further arguments to methods in "nest" or the \code{stats::loadings} function.}
+\item{...}{Further arguments to methods in "nest" or the \code{stats::loadings} function.}
 }
 \description{
 Print Loadings in NEST

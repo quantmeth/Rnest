@@ -7,11 +7,11 @@
 \method{plot}{nest}(x, y, ...)
 }
 \arguments{
-\item{x}{an object of class "nest".}
+\item{x}{An object of class "nest".}
 
-\item{y}{further arguments for other methods, ignored for "nest".}
+\item{y}{Further arguments for other methods, ignored for "nest".}
 
-\item{...}{further arguments for other methods, ignored for "nest".}
+\item{...}{Further arguments for other methods, ignored for "nest".}
 }
 \description{
 Scree plot of the eigenvalues and the \code{(1-alpha)*100\%} confidence intervals derived from the resampled eigenvalues supplied to \code{nest}.

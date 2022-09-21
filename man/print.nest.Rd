@@ -7,9 +7,9 @@
 \method{print}{nest}(x, ...)
 }
 \arguments{
-\item{x}{an object of class "nest".}
+\item{x}{An object of class "nest".}
 
-\item{...}{further arguments for other methods, ignored for "nest".}
+\item{...}{Further arguments for other methods, ignored for "nest".}
 }
 \description{
 Print the number of factors to retain according to confidence levels.

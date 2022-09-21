@@ -1,8 +1,8 @@
 #' Print results of NEST
 #'
 #' @description Print the number of factors to retain according to confidence levels.
-#' @param x an object of class "nest".
-#' @param ... further arguments for other methods, ignored for "nest".
+#' @param x An object of class "nest".
+#' @param ... Further arguments for other methods, ignored for "nest".
 #'
 #' @importFrom crayon red blue green
 #' @export

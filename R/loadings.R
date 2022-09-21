@@ -1,9 +1,9 @@
 #' Print Loadings in NEST
 #'
-#' @param x an object of class "nest".
+#' @param x An object of class "nest".
 #' @param nfactors The number of factors to retains.
 #' @param method A method used to compute loadings and uniquenesses.
-#' @param ... further arguments to methods in "nest" or the \code{stats::loadings} function.
+#' @param ... Further arguments to methods in "nest" or the \code{stats::loadings} function.
 #'
 #' @note See \code{stats::loadings} for the original documentation.
 #' @export
