@@ -1,4 +1,4 @@
-#' A correlation matrix composed of 4 correlated factors..
+#' A correlation matrix composed of 4 correlated factors.
 #'
 #' A correlation matrix composed of 12 items based on 4 factors with 3 variables
 #' each. Loadings equals to .9, .9, and .3. Factors 1 and 2, and factors 3 and 4 are 

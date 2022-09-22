@@ -30,7 +30,7 @@ nest(
 \item{...}{Arguments for \code{method} that can be supplied. See details.}
 }
 \value{
-\code{nest} return an object of class code{nest}. The functions \code{summary} and \code{plot} are used to obtain and show a summary of the results.
+\code{nest} returns an object of class code{nest}. The functions \code{summary} and \code{plot} are used to obtain and show a summary of the results.
 
 An object of class \code{nest} is a list containing the following components:
 

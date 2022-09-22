@@ -3,7 +3,7 @@
 \docType{data}
 \name{ex_4factors_corr}
 \alias{ex_4factors_corr}
-\title{A correlation matrix composed of 4 correlated factors..}
+\title{A correlation matrix composed of 4 correlated factors.}
 \format{
 A 12 by 12 correlation matrix
 }
