@@ -1,4 +1,4 @@
-#' Yet Another Stopping Rule
+#' Yet Another Stopping Rule 1
 #'
 #' @param data A data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.
 #' @param n.obs The number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{data}.
@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' YASR(ex_2factors, n.obs = 50)
-YASR <- function(data, 
+YASR1 <- function(data, 
                  n.obs = NULL,
                  alpha = .05, 
                  max.fact = max(which(dof(ncol(data))>0))-2,
@@ -62,7 +62,7 @@ YASR <- function(data,
     }
     
     R.test <- R.test[lower.tri(R.test)]
-    z <- (log((1+Rt)/(1-Rt))/2 - log((1+R.test)/(1-R.test))/2) / sqrt(2/(n.obs-3))
+    z <- (log((1+Rt)/(1-Rt))/2 - log((1+R.test)/(1-R.test))/2) / sqrt(1/(n.obs-3))
     res$`-2ll`[i+1] <- -2*sum(log(dnorm(z)))
     if(i > 0){
       res$diff[i+1] <- res$dof[i] - res$dof[i+1]
