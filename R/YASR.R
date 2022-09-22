@@ -49,40 +49,44 @@ YASR <- function(data,
   
   Rt <- R[lower.tri(R)]
   
-  # sz <- as.numeric()
-  
   for(i in 0:max.fact){
     
-    res$dof[i+1] <- dof(nv, i) #(nv-i)*(nv-i-1)/2 - i
+    res$dof[i+1] <- dof(nv, i)
     
     if(i == 0){
       R.test <- diag(diag(R))
     } else {
-      fa <- factanal(covmat = R, n.obs = n.obs, factors = i) #,...
+      fa <- factanal(covmat = R, n.obs = n.obs, factors = i, ...) #,...
       ld <- cbind(fa$loadings, diag(sqrt(fa$uniquenesses)))
       R.test <- ld %*% t(ld)
     }
     
     R.test <- R.test[lower.tri(R.test)]
-    z <- (log((1+Rt)/(1-Rt))/2 - log((1+R.test)/(1-R.test))/2) / sqrt(1/(n.obs-3))
+    z <- (log((1+Rt)/(1-Rt))/2 - log((1+R.test)/(1-R.test))/2) / sqrt(2/(n.obs-3))
     res$`-2ll`[i+1] <- -2*sum(log(dnorm(z)))
-    # sz[i+1] <- mean(z)/ * sqrt(dof(nv,0)) 
-    # sz[i+1] <- mean(z)/sd(z) * sqrt(length(z))
-    # sz[i+1] <- sum(z) / length(z) * sqrt(dof(nv,0)) 
-  
+    if(i > 0){
+      res$diff[i+1] <- res$dof[i] - res$dof[i+1]
+      res$pv[i+1] <- round(1-pchisq(q = res$`-2ll`[i] - res$`-2ll`[i+1],
+                                    df = res$diff[i+1]),4)
+      
+      if(res$pv[i+1]>.05) break
+      
     }
+  }
+  nfactors = i - 1 
+  results <- res[1:(i+1),]
   
-  res$diff[-1] <- res$dof[-(max.fact+1)] - res$dof[-1]
-  res$pv[-1] <- round(1-pchisq(q = res$`-2ll`[-(max.fact+1)] - res$`-2ll`[-1], 
-                         df = res$diff[-1]), 4)
-  
-  nfactors <- min(which(res$pv >= .05)) - 2
-  results <- res#list(YASR = res)#,
-                 #cormat = R,
-                 #values = eig,
-                 #loadings = fa$loadings[], # How to add loadings for nfactors (case = 0 or else)
-                 #alpha = alpha,
-                 #method = "method")
+  # res$diff[-1] <- res$dof[-(max.fact+1)] - res$dof[-1]
+  # res$pv[-1] <- round(1-pchisq(q = res$`-2ll`[-(max.fact+1)] - res$`-2ll`[-1], 
+  #                              df = res$diff[-1]), 4)
+  #results <- res
+  #nfactors <- min(which(res$pv >= .05)) - 2
+  #results <- res#list(YASR = res)#,
+  #cormat = R,
+  #values = eig,
+  #loadings = fa$loadings[], # How to add loadings for nfactors (case = 0 or else)
+  #alpha = alpha,
+  #method = "method")
   
   return(list(nfactors = nfactors, results = results))
 }
