@@ -8,7 +8,7 @@ YASR(
   data,
   n.obs = NULL,
   alpha = 0.05,
-  max.fact = max(which(dof(ncol(data)) > 0)) - 1,
+  max.fact = max(which(dof(ncol(data)) > 0)) - 2,
   ...
 )
 }
@@ -17,11 +17,11 @@ YASR(
 
 \item{n.obs}{The number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{data}.}
 
-\item{alpha}{Type I error rate}
+\item{alpha}{Type I error rate.}
 
-\item{max.fact}{An optional maximum number of factor to extract}
+\item{max.fact}{An optional maximum number of factor to extract.}
 
-\item{...}{Arguments for methods}
+\item{...}{Arguments for methods.}
 }
 \value{
 \code{YASR} returns the number of factors to retain.

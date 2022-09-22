@@ -5,6 +5,7 @@
 #' @param p number of variables
 #' @param nreps number of replications
 #' @param alpha type I error rate
+#' @param ... Other arguments
 #'
 #' @return nfactors (if data is supplied) and sampled eigenvalues
 #' @export
@@ -12,7 +13,7 @@
 #' @examples
 #' pa(ex_2factors)
 #' E <- pa(n = 10, p = 2, nrep = 5)
-pa <- function(data = NULL, n = nrow(data), p = ncol(data), nreps = 1000, alpha = .05){
+pa <- function(data = NULL, n = nrow(data), p = ncol(data), nreps = 1000, alpha = .05, ...){
   
   E <- replicate(nreps,
                  eigen(cor(matrix(rnorm(n * p),

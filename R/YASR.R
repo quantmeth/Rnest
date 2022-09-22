@@ -2,9 +2,9 @@
 #'
 #' @param data A data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.
 #' @param n.obs The number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{data}.
-#' @param alpha Type I error rate
-#' @param max.fact  An optional maximum number of factor to extract
-#' @param ... Arguments for methods
+#' @param alpha Type I error rate.
+#' @param max.fact  An optional maximum number of factor to extract.
+#' @param ... Arguments for methods.
 #'
 #' @return \code{YASR} returns the number of factors to retain.
 #' @export
@@ -14,10 +14,9 @@
 YASR <- function(data, 
                  n.obs = NULL,
                  alpha = .05, 
-                 max.fact = max(which(dof(ncol(data))>0))-1,
+                 max.fact = max(which(dof(ncol(data))>0))-2,
                  ...){
   # CHECK max.fact's dof < 0
-  # prepare.nest ####
   
   if(isSymmetric.matrix(data)){
     
@@ -50,6 +49,8 @@ YASR <- function(data,
   
   Rt <- R[lower.tri(R)]
   
+  # sz <- as.numeric()
+  
   for(i in 0:max.fact){
     
     res$dof[i+1] <- dof(nv, i) #(nv-i)*(nv-i-1)/2 - i
@@ -57,24 +58,26 @@ YASR <- function(data,
     if(i == 0){
       R.test <- diag(diag(R))
     } else {
-      fa <- factanal(covmat = R, n.obs = n.obs, factors = i, ...)
+      fa <- factanal(covmat = R, n.obs = n.obs, factors = i) #,...
       ld <- cbind(fa$loadings, diag(sqrt(fa$uniquenesses)))
       R.test <- ld %*% t(ld)
     }
     
     R.test <- R.test[lower.tri(R.test)]
-    z <- (log((1+Rt)/(1-Rt))/2 - log((1+R.test)/(1-R.test))/2) / sqrt(2/(n.obs-3))
+    z <- (log((1+Rt)/(1-Rt))/2 - log((1+R.test)/(1-R.test))/2) / sqrt(1/(n.obs-3))
     res$`-2ll`[i+1] <- -2*sum(log(dnorm(z)))
-    
-  }
+    # sz[i+1] <- mean(z)/ * sqrt(dof(nv,0)) 
+    # sz[i+1] <- mean(z)/sd(z) * sqrt(length(z))
+    # sz[i+1] <- sum(z) / length(z) * sqrt(dof(nv,0)) 
+  
+    }
   
   res$diff[-1] <- res$dof[-(max.fact+1)] - res$dof[-1]
   res$pv[-1] <- round(1-pchisq(q = res$`-2ll`[-(max.fact+1)] - res$`-2ll`[-1], 
                          df = res$diff[-1]), 4)
   
-  nfactors = max(which(res$pv < .05)) - 1
-  
-  results = res#list(YASR = res)#,
+  nfactors <- min(which(res$pv >= .05)) - 2
+  results <- res#list(YASR = res)#,
                  #cormat = R,
                  #values = eig,
                  #loadings = fa$loadings[], # How to add loadings for nfactors (case = 0 or else)

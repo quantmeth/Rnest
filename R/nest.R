@@ -189,8 +189,7 @@ ml <- function(covmat, n, factors, ...){
 }
 
 mrfa <- function(covmat, n, factors, ...){
-  fa <- EFA.MRFA::mrfa(SIGMA = covmat, dimensionality = factors)
-  #fa <- factanal(covmat = covmat, n.obs = n, factors = c(factors), ...)
+  fa <- EFA.MRFA::mrfa(SIGMA = covmat, dimensionality = factors, ...)
   list(loadings = fa$A, uniquenesses = 1-fa$gam)
 }
 

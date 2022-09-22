@@ -4,7 +4,14 @@
 \alias{pa}
 \title{Parallel analysis}
 \usage{
-pa(data = NULL, n = nrow(data), p = ncol(data), nreps = 1000, alpha = 0.05)
+pa(
+  data = NULL,
+  n = nrow(data),
+  p = ncol(data),
+  nreps = 1000,
+  alpha = 0.05,
+  ...
+)
 }
 \arguments{
 \item{data}{data.frame}
@@ -16,6 +23,8 @@ pa(data = NULL, n = nrow(data), p = ncol(data), nreps = 1000, alpha = 0.05)
 \item{nreps}{number of replications}
 
 \item{alpha}{type I error rate}
+
+\item{...}{Other arguments}
 }
 \value{
 nfactors (if data is supplied) and sampled eigenvalues
