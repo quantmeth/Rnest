@@ -4,7 +4,7 @@
 #' @param n.obs The number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{data}.
 #' @param alpha Type I error rate
 #' @param max.fact  An optional maximum number of factor to extract
-#' @param ... Arguments for
+#' @param ... Arguments for methods
 #'
 #' @return \code{YASR} returns the number of factors to retain.
 #' @export
@@ -57,7 +57,7 @@ YASR <- function(data,
     if(i == 0){
       R.test <- diag(diag(R))
     } else {
-      fa <- factanal(covmat = R, n.obs = n.obs, factors = i, nstart = 4)
+      fa <- factanal(covmat = R, n.obs = n.obs, factors = i, ...)
       ld <- cbind(fa$loadings, diag(sqrt(fa$uniquenesses)))
       R.test <- ld %*% t(ld)
     }

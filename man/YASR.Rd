@@ -21,7 +21,7 @@ YASR(
 
 \item{max.fact}{An optional maximum number of factor to extract}
 
-\item{...}{Arguments for}
+\item{...}{Arguments for methods}
 }
 \value{
 \code{YASR} returns the number of factors to retain.
