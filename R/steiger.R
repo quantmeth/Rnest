@@ -51,7 +51,7 @@ steiger <- function(data,
   
   for(i in 0:max.fact){
     
-    res$dof[i+1] <- dof(nv, i)
+    #res$dof[i+1] <- dof(nv, i)
     
     if(i == 0){
       R.test <- diag(diag(R))
@@ -66,7 +66,7 @@ steiger <- function(data,
                            n1 = n.obs, 
                            n2 = n.obs)
     
-    res[i+1] <- c(resu$stat, resu$dof, resu$pv)
+    res[i+1,] <- c(resu$stat, resu$dof, resu$pv)
     
     if(res$pv[i+1] > alpha) break
   }
