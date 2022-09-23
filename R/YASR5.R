@@ -65,10 +65,10 @@ YASR5 <- function(data,
     z <- (log((1+Rt)/(1-Rt))/2 - log((1+R.test)/(1-R.test))/2) / sqrt(.5/(n.obs-3))
     res$`-2ll`[i+1] <- -2*sum(log(dnorm(z)))
     if(i > 0){
-      res$diff <- res$`-2ll`[i] - res$`-2ll`[i+1]
+      res$diff[i+1] <- res$`-2ll`[i] - res$`-2ll`[i+1]
       res$diff_dof[i+1] <- res$dof[i] - res$dof[i+1]
-      res$pv[i+1] <- round(1-pchisq(q = res$diff,
-                                    df = res$diff[i+1]), 4)
+      res$pv[i+1] <- round(1-pchisq(q = res$diff[i+1],
+                                    df = res$diff_dof[i+1]), 4)
       
       if(res$pv[i+1]>alpha) break
       
