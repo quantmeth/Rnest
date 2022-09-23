@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-#' YASR(ex_2factors, n.obs = 50)
+#' YASR1(ex_4factors_corr, n.obs = 42)
 YASR1 <- function(data, 
                  n.obs = NULL,
                  alpha = .05, 
@@ -42,10 +42,10 @@ YASR1 <- function(data,
   }
   
   # add method
-  res <- as.data.frame(matrix(0, ncol = 4,
+  res <- as.data.frame(matrix(0, ncol = 5,
                               nrow = max.fact + 1,
                               dimnames = list(0:max.fact,
-                                              c("-2ll", "dof", "diff", "pv"))))
+                                              c("-2ll", "dof", "diff", "diff_dof", "pv"))))
   
   Rt <- R[lower.tri(R)]
   
@@ -65,8 +65,9 @@ YASR1 <- function(data,
     z <- (log((1+Rt)/(1-Rt))/2 - log((1+R.test)/(1-R.test))/2) / sqrt(1/(n.obs-3))
     res$`-2ll`[i+1] <- -2*sum(log(dnorm(z)))
     if(i > 0){
-      res$diff[i+1] <- res$dof[i] - res$dof[i+1]
-      res$pv[i+1] <- round(1-pchisq(q = res$`-2ll`[i] - res$`-2ll`[i+1],
+      res$diff <- res$`-2ll`[i] - res$`-2ll`[i+1]
+      res$diff_dof[i+1] <- res$dof[i] - res$dof[i+1]
+      res$pv[i+1] <- round(1-pchisq(q = res$diff,
                                     df = res$diff[i+1]),4)
       
       if(res$pv[i+1]>alpha) break
@@ -75,18 +76,6 @@ YASR1 <- function(data,
   }
   nfactors = i - 1 
   results <- res[1:(i+1),]
-  
-  # res$diff[-1] <- res$dof[-(max.fact+1)] - res$dof[-1]
-  # res$pv[-1] <- round(1-pchisq(q = res$`-2ll`[-(max.fact+1)] - res$`-2ll`[-1], 
-  #                              df = res$diff[-1]), 4)
-  #results <- res
-  #nfactors <- min(which(res$pv >= .05)) - 2
-  #results <- res#list(YASR = res)#,
-  #cormat = R,
-  #values = eig,
-  #loadings = fa$loadings[], # How to add loadings for nfactors (case = 0 or else)
-  #alpha = alpha,
-  #method = "method")
   
   return(list(nfactors = nfactors, results = results))
 }

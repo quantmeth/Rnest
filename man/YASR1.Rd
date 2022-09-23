@@ -30,5 +30,5 @@ YASR1(
 Yet Another Stopping Rule 1
 }
 \examples{
-YASR(ex_2factors, n.obs = 50)
+YASR1(ex_4factors_corr, n.obs = 42)
 }
