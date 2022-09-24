@@ -1,4 +1,4 @@
-#' Yet Another Stopping Rule corrected
+#' Yet Another Stopping Rule atanh
 #'
 #' @param data A data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.
 #' @param n.obs The number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{data}.
@@ -10,8 +10,8 @@
 #' @export
 #'
 #' @examples
-#' YASRc(ex_4factors_corr, n.obs = 42)
-YASRc <- function(data, 
+#' YASRatanh(ex_4factors_corr, n.obs = 42)
+YASRatanh <- function(data, 
                  n.obs = NULL,
                  alpha = .05, 
                  max.fact = max(which(dof(ncol(data))>0))-2,
@@ -42,10 +42,10 @@ YASRc <- function(data,
   }
   
   # add method
-  res <- as.data.frame(matrix(0, ncol = 5,
+  res <- as.data.frame(matrix(0, ncol = 6,
                               nrow = max.fact + 1,
                               dimnames = list(0:max.fact,
-                                              c("-2ll", "dof", "diff", "diff_dof", "pv"))))
+                                              c("-2ll", "dof", "diff", "diff_dof","z", "pv"))))
   
   Rt <- R[lower.tri(R)]
   
@@ -56,25 +56,27 @@ YASRc <- function(data,
     if(i == 0){
       R.test <- diag(diag(R))
     } else {
-      fa <- factanal(covmat = R, n.obs = n.obs, factors = i, ...) #,...
+      fa <- factanal(covmat = R, n.obs = n.obs, factors = i,...) #,...
       ld <- cbind(fa$loadings, diag(sqrt(fa$uniquenesses)))
       R.test <- ld %*% t(ld)
     }
     
     R.test <- R.test[lower.tri(R.test)]
-    z <- (log((1+Rt)/(1-Rt)/2) - log((1+R.test)/(1-R.test))/2) / sqrt(1/(n.obs-3))
+    z <- (atanh(Rt) - atanh(R.test)) / sqrt(1/(n.obs-3))
+    res$z[i+1] <- mean(z)
+    #z <- (log((1+Rt)/(1-Rt)/2) - log((1+R.test)/(1-R.test))/2) / sqrt(1/(n.obs-3))
     res$`-2ll`[i+1] <- -2*sum(log(dnorm(z)))
     if(i > 0){
       res$diff[i+1] <- res$`-2ll`[i] - res$`-2ll`[i+1]
       res$diff_dof[i+1] <- res$dof[i] - res$dof[i+1]
-      res$pv[i+1] <- round(1-pchisq(q = res$diff[i+1],
-                                    df = res$diff_dof[i+1]), 4)
-      
+      #res$pv[i+1] <- round(1-pchisq(q = res$diff[i+1],
+      #                              df = res$diff_dof[i+1]), 4)
+      res$pv[i+1] <- pnorm(res$z[i+1] * sqrt(dof(nv,0)), lower.tail = FALSE)
       if(res$pv[i+1]>alpha) break
       
     }
   }
-  nfactors = i - 1 
+  nfactors = i 
   results <- res[1:(i+1),]
   
   return(list(nfactors = nfactors, results = results))
