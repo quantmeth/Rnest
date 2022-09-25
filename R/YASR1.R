@@ -56,7 +56,7 @@ YASRc <- function(data,
     if(i == 0){
       R.test <- diag(diag(R))
     } else {
-      fa <- factanal(covmat = R, n.obs = n.obs, factors = i, ...) #,...
+      fa <- factanal(covmat = R, n.obs = n.obs, factors = i,...) #,...
       ld <- cbind(fa$loadings, diag(sqrt(fa$uniquenesses)))
       R.test <- ld %*% t(ld)
     }
@@ -70,7 +70,7 @@ YASRc <- function(data,
       res$pv[i+1] <- round(1-pchisq(q = res$diff[i+1],
                                     df = res$diff_dof[i+1]), 4)
       
-      if(res$pv[i+1]>alpha) break
+     # if(res$pv[i+1]>alpha) break
       
     }
   }
