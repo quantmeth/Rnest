@@ -9,8 +9,10 @@
 #' @return \code{YASR} returns the number of factors to retain.
 #' @export
 #'
-#' @examples
-#' YASRnew(ex_4factors_corr, n.obs = 42)
+#' @examples 
+#' \dontrun{
+#' YASRnew(gen_data(x_4factors_corr))
+#' }
 YASRnew <- function(data, 
                  n.obs = NULL,
                  alpha = .05, 
@@ -60,14 +62,14 @@ YASRnew <- function(data,
     res$stat[i] <- sum(z^2)
     res$dof[i] <- dof(nv,i-1)
     res$crit[i] <- qchisq(1-alpha,res$dof[i])
-    res$pv[i] <- round(pchisq(res$stat[i], res$dof[i], lower = FALSE), 5)
+    res$pv[i] <- round(pchisq(res$stat[i], res$dof[i], lower.tail = FALSE), 5)
     res$sig[i] <- (res$stat[i] >= res$crit[i])
     if(!res$sig[i]) break
   }
   res <- res[1:i,]
   # res$dof <- dof(nv,0:max.fact)
   # res$crit <- qchisq(1-alpgha,res$dof)
-  # res$pv <- round(pchisq(res$stat, res$dof, lower = FALSE), 5)
+  # res$pv <- round(pchisq(res$stat, res$dof, lower.tail = FALSE), 5)
   # res$sig <- res$stat >= res$crit 
   nfactors <- min(which(!res$sig))-1
   return(list(nfactors = nfactors, results = res))

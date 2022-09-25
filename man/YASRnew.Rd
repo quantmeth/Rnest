@@ -30,5 +30,7 @@ YASRnew(
 Yet Another Stopping Rule (new) chi2(atanh)
 }
 \examples{
-YASRnew(ex_4factors_corr, n.obs = 42)
+\dontrun{
+YASRnew(gen_data(x_4factors_corr))
+}
 }
