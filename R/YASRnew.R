@@ -87,6 +87,7 @@ tri.l <- function(x, lower = TRUE, diag = FALSE){
 tri.u <- function(x, lower = FALSE, diag = FALSE){
   tri.l(x, lower = lower, diag = diag)
 }
+
 #multivariate case
 gen_R <- function(R, n){
   S <- cor(gen_data(R, n))
