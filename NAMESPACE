@@ -2,7 +2,6 @@
 
 S3method(plot,nest)
 S3method(print,nest)
-export(YASRatanh)
 export(YASRc)
 export(YASRnew)
 export(loadings)
