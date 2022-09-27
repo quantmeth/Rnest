@@ -49,8 +49,10 @@
 #' @export  
 #'
 #' @examples
+#' \dontrun{
 #' snest(ex_2factors, n = 100)
 #' snest(mtcars)
+#' }
 snest <- function(data, 
                   n.obs = NULL, 
                   nreps = 1000, 
