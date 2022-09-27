@@ -17,5 +17,4 @@ Imports:
   ggplot2 (>= 3.3.0),
   scales (>= 1.0.0),
   EFA.MRFA (>= 1.1.2),
-  MASS (>= 7.3-54),
-  gsl (>= 2.1-7.1)
+  MASS (>= 7.3-54)
