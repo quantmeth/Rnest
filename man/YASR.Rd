@@ -30,5 +30,7 @@ YASR(
 Yet Another Stopping Rule (ultime)
 }
 \examples{
+\dontrun{
 YASR(ex_4factors_corr, n.obs = 84)
+}
 }

@@ -20,8 +20,10 @@ Scree plot of the eigenvalues and the \code{(1-alpha)*100\%} confidence interval
 This function is more interesting with many \code{alpha} values.
 }
 \examples{
+\dontrun{
 results <- nest(ex_2factors, n = 100, alpha = c(.01, .05, .01))
 plot(results)
 # Return the data used to produce the plot
 df <- plot(results)$data
+}
 }

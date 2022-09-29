@@ -8,8 +8,10 @@
 #' @export
 #'
 #' @examples 
+#' \dontrun{
 #' results <- nest(ex_2factors, n = 100)
 #' print(results)
+#' }
 print.nest <- 
   function(x, ...){
   for(i in 1:length(x$alpha)){

@@ -10,7 +10,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' YASR(ex_4factors_corr, n.obs = 84)
+#' }
 YASR <- function(data, 
                  n.obs = NULL,
                  alpha = .05, 

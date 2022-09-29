@@ -49,8 +49,10 @@
 #' @export  
 #'
 #' @examples
-#' nest(ex_2factors, n = 100)
-#' nest(mtcars)
+#'\dontrun{
+#'nest(ex_2factors, n = 100)
+#'nest(mtcars)
+#'}
 nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data), method = "ml", ...){
   
   R <- prepare.nest(data, n = n)

@@ -8,7 +8,7 @@ new(
   data,
   n.obs = NULL,
   nreps = 1000,
-  alpha = 0.1,
+  alpha = 0.05,
   max.fact = max(which(dof(nv, 0:nv) > (nv/2))) - 1,
   ...
 )
@@ -33,5 +33,7 @@ The number of factors
 YASR (new - 29-09-2022)
 }
 \examples{
+\dontrun{
 new(ex_4factors_corr, n.obs = 84)
+}
 }

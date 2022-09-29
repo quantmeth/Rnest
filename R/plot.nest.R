@@ -14,10 +14,12 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' results <- nest(ex_2factors, n = 100, alpha = c(.01, .05, .01))
 #' plot(results)
 #' # Return the data used to produce the plot
 #' df <- plot(results)$data
+#' }
 plot.nest <- function(x, y, ...){
   
   df <- data2plot(x)

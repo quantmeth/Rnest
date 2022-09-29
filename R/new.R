@@ -14,11 +14,13 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' new(ex_4factors_corr, n.obs = 84)
+#' }
 new <- function(data, 
                  n.obs = NULL, 
                  nreps = 1000, 
-                 alpha = .10, 
+                 alpha = .05, 
                  max.fact = max(which(dof(nv,0:nv)>(nv/2)))-1, 
                  ...){
   
@@ -54,6 +56,7 @@ new <- function(data,
   ztest0 <- list()
   
   res <- data.frame(p = rep(0, max.fact),
+                    a = 0,
                     z = 0,
                     pz = 0)
   #res <- data.frame(mean = rep(0, max.fact),
@@ -82,12 +85,13 @@ new <- function(data,
       
       res$p[i-1] <- round(sum(ztest0[[i]] > quantile(ztest0[[i-1]],alpha))/nreps,4)
         #sum(ztest0[[i-1]] < quantile(ztest0[[i]], 1-alpha)) / nreps
-      if(res$p[i-1] > alpha) break
+      res$a[i-1] <- alpha / 2 * (i-1)
+      if(res$p[i-1] > res$a[i-1]) break
     }
   }
   
   res <- res[1:(i-1),]
-  list(nfactors = i-2, results = res)
+  #list(nfactors = i-2, results = res)
   #stopCluster(cl)
   return(list(nfactors = i-2, results = res))
 }

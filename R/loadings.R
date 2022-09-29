@@ -9,8 +9,10 @@
 #' @export
 #'
 #' @examples 
+#' \dontrun{
 #' results <- nest(ex_2factors, n = 100)
 #' loadings(results)
+#' }
 loadings <- function(x, nfactors = x$nfactors, method = x$method, ...){
   if(class(x) == "nest"){
     

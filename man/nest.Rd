@@ -63,8 +63,10 @@ There is two \code{method} already implemented in \code{nest} to extract loading
 }
 
 \examples{
+\dontrun{
 nest(ex_2factors, n = 100)
 nest(mtcars)
+}
 }
 \references{
 Achim, A. (2017). Testing the number of required dimensions in exploratory factor analysis. \emph{The Quantitative Methods for Psychology}, \emph{13}(1), 64-74. \url{https://doi.org/10.20982/tqmp.13.1.p064}

@@ -22,6 +22,8 @@ Print Loadings in NEST
 See \code{stats::loadings} for the original documentation.
 }
 \examples{
+\dontrun{
 results <- nest(ex_2factors, n = 100)
 loadings(results)
+}
 }
