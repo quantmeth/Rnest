@@ -30,5 +30,5 @@ YASR(
 Yet Another Stopping Rule (ultime)
 }
 \examples{
-YASR(ex_4factors_corr, n.obs = 42)
+YASR(ex_4factors_corr, n.obs = 84)
 }

@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-#' YASR(ex_4factors_corr, n.obs = 42)
+#' YASR(ex_4factors_corr, n.obs = 84)
 YASR <- function(data, 
                  n.obs = NULL,
                  alpha = .05, 
@@ -62,6 +62,7 @@ YASR <- function(data,
     }
     
     R.test <- R.test[lower.tri(R.test)]
+    #z <- (atanh(Rt) - atanh(R.test)) * sqrt(n.obs-3)
     z <- (log((1+Rt)/(1-Rt))/2 - log((1+R.test)/(1-R.test))/2) / sqrt(1/(n.obs-3))
     res$`-2ll`[i+1] <- -2*sum(log(dnorm(z)))
     if(i > 0){

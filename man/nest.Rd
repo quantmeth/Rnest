@@ -9,7 +9,7 @@ nest(
   n = NULL,
   nrep = 1000,
   alpha = 0.05,
-  max.factors = ncol(data),
+  max.fact = ncol(data),
   method = "ml",
   ...
 )
@@ -23,7 +23,7 @@ nest(
 
 \item{alpha}{A vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.}
 
-\item{max.factors}{An optional maximum number of factor to extract. Default is \code{max.factors = ncol(data)}.}
+\item{max.fact}{An optional maximum number of factor to extract. Default is \code{max.fact = ncol(data)}.}
 
 \item{method}{A method used to compute loadings and uniquenesses. Two methods are implemented in \code{Rnest} : maximum likelihood \code{method = "lm"} (default) and principal axis factoring \code{method = "paf"}. See details for custom methods.}
 

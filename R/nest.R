@@ -6,7 +6,7 @@
 #' @param n The number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{data}.
 #' @param nrep The number of replications to simulate. Default is 1000.
 #' @param alpha A vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.
-#' @param max.factors An optional maximum number of factor to extract. Default is \code{max.factors = ncol(data)}.
+#' @param max.fact An optional maximum number of factor to extract. Default is \code{max.fact = ncol(data)}.
 #' @param method A method used to compute loadings and uniquenesses. Two methods are implemented in \code{Rnest} : maximum likelihood \code{method = "lm"} (default) and principal axis factoring \code{method = "paf"}. See details for custom methods.
 #' @param ... Arguments for \code{method} that can be supplied. See details.
 #'
@@ -51,7 +51,7 @@
 #' @examples
 #' nest(ex_2factors, n = 100)
 #' nest(mtcars)
-nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.factors = ncol(data), method = "ml", ...){
+nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data), method = "ml", ...){
   
   R <- prepare.nest(data, n = n)
   CI <- paste0((1 - sort(alpha)) * 100,"%")
@@ -66,7 +66,7 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.factors = ncol(da
                          nm = CI))
   colnames(nfactors) <- "nfactors"
   
-  for (i in 0:max.factors){
+  for (i in 0:max.fact){
     if(all(!test.eig)) {
       
       break
