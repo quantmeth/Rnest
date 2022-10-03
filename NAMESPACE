@@ -2,6 +2,7 @@
 
 S3method(plot,nest)
 S3method(print,nest)
+export(BOOTR)
 export(YASR)
 export(loadings)
 export(nest)
