@@ -1,4 +1,4 @@
-#' Get files from packages into the environment
+#' Get rds files from Rnest into the environment
 #'
 #' @description Get RDS files from Rnest package (compatibility issues)
 #'
@@ -24,7 +24,7 @@ get.data <- function(x = list("cormat.l",
     path <- system.file(file.path("extdata", paste0(x[[i]],".rds")), 
                         package = pkg)
     #assign(x[[i]], readRDS(path), envir = as.environment(1L))
-    (function(key, val, pos) assign(key,val, envir=as.environment(pos)))(x[[i]], readRDS(path), 1L) 
+    (function(key, val, pos) assign(key,val, envir=as.environment(pos)))(x[[i]], readRDS(path, version = 2), 1L) 
   }
 }
 # get.data()
