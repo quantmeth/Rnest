@@ -24,7 +24,10 @@ get.data <- function(x = list("cormat.l",
     path <- system.file(file.path("extdata", paste0(x[[i]],".rds")), 
                         package = pkg)
     #assign(x[[i]], readRDS(path), envir = as.environment(1L))
-    (function(key, val, pos) assign(key,val, envir=as.environment(pos)))(x[[i]], readRDS(path, version = 2), 1L) 
+    (function(key, val, pos) assign(key, 
+                                    val, 
+                                    envir =
+                                      as.environment(pos)))(x[[i]], readRDS(path), 1L) 
   }
 }
 # get.data()
