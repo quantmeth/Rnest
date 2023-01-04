@@ -14,7 +14,7 @@
 #' loadings(results)
 #' }
 loadings <- function(x, nfactors = x$nfactors, method = x$method, ...){
-  if(class(x) == "nest"){
+  if(inherits(x, "nest")){
     
     if(any(nfactors == 0)) stop("The number of factor is 0")
   

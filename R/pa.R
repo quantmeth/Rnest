@@ -23,6 +23,11 @@ pa <- function(data = NULL, n = nrow(data), p = ncol(data), nreps = 1000, alpha 
                                   nrow = n)), 
                        only.values = TRUE)$values)
   
+  crit <- apply(E, 
+                MARGIN = 1, 
+                FUN = quantile, 
+                probs = (1-alpha))
+  
   if(is.null(data)){
     nfactors = NULL
   } else {
@@ -36,5 +41,6 @@ pa <- function(data = NULL, n = nrow(data), p = ncol(data), nreps = 1000, alpha 
     nfactors = max(c(0, which(eig >= crit)))
   }
   return(list(nfactors = nfactors,
+              crit = crit,
               sample.eig = E))
 }
