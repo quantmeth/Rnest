@@ -2,11 +2,12 @@
 % Please edit documentation in R/get.data.R
 \name{get.data}
 \alias{get.data}
-\title{Get RDS files from Rnest package}
+\title{Get files from packages into the environment}
 \usage{
 get.data(
   x = list("cormat.l", "cormat", "ex_2factors", "ex_3factors_doub_unique",
-    "ex_4factors_corr")
+    "ex_4factors_corr"),
+  pkg = "Rnest"
 )
 }
 \arguments{
@@ -17,6 +18,8 @@ get.data(
 \item{"ex_3factors_doub_unique"}
 \item{"ex_4factors_corr"}
 }}
+
+\item{pkg}{is the package}
 }
 \value{
 A data file
