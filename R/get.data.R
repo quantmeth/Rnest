@@ -20,7 +20,7 @@ get.data <- function(x = list("cormat.l",
                               "ex_3factors_doub_unique",
                               "ex_4factors_corr")){
   sapply(x, function(x){
-    path <- system.file(file.path(x, paste0(x,".rds")), 
+    path <- system.file(file.path("extdata", paste0(x,".rds")), 
                         package = "Rnest")
     assign(x, readRDS(path))
   })
