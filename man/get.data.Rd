@@ -2,11 +2,11 @@
 % Please edit documentation in R/get.data.R
 \name{get.data}
 \alias{get.data}
-\title{Get files from packages into the environment}
+\title{Get rds files from Rnest into the environment}
 \usage{
 get.data(
   x = list("cormat.l", "cormat", "ex_2factors", "ex_3factors_doub_unique",
-    "ex_4factors_corr"),
+    "ex_4factors_corr", "eig_pa", "vcritproto"),
   pkg = "Rnest"
 )
 }

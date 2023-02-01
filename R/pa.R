@@ -13,7 +13,7 @@
 #' @examples
 #' \dontrun{
 #' pa(ex_2factors)
-#' E <- pa(n = 10, p = 2, nrep = 5)
+#' E <- pa(n = 10, p = 2, nreps = 5)
 #' }
 pa <- function(data = NULL, n = nrow(data), p = ncol(data), nreps = 1000, alpha = .05, ...){
   

@@ -19,7 +19,9 @@ get.data <- function(x = list("cormat.l",
                               "cormat",
                               "ex_2factors",
                               "ex_3factors_doub_unique",
-                              "ex_4factors_corr"), pkg = "Rnest"){
+                              "ex_4factors_corr",
+                              "eig_pa",
+                              "vcritproto"), pkg = "Rnest"){
   for(i in 1:length(x)){
     path <- system.file(file.path("extdata", paste0(x[[i]],".rds")), 
                         package = pkg)
