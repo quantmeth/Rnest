@@ -6,23 +6,26 @@
 \usage{
 pa(
   data = NULL,
-  n = nrow(data),
-  p = ncol(data),
-  nreps = 1000,
+  n = NULL,
+  p = NULL,
+  nrep = 1000,
   alpha = 0.05,
+  crit = NULL,
   ...
 )
 }
 \arguments{
-\item{data}{data.frame}
+\item{data}{data.frame.}
 
-\item{n}{number of subjects}
+\item{n}{number of subjects.}
 
-\item{p}{number of variables}
+\item{p}{number of variables.}
 
-\item{nreps}{number of replications}
+\item{nrep}{number of replications.}
 
-\item{alpha}{type I error rate}
+\item{alpha}{type I error rate.}
+
+\item{crit}{Critical values to compare the eigenvalues.}
 
 \item{...}{Other arguments}
 }
@@ -35,6 +38,6 @@ Parallel analysis
 \examples{
 \dontrun{
 pa(ex_2factors)
-E <- pa(n = 10, p = 2, nreps = 5)
+E <- pa(n = 10, p = 2, nrep = 5)
 }
 }

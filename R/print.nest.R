@@ -12,13 +12,12 @@
 #' results <- nest(ex_2factors, n = 100)
 #' print(results)
 #' }
-print.nest <- 
-  function(x, ...){
+print.nest <- function(x, ...){
   for(i in 1:length(x$alpha)){
     al <- paste0("At ",rownames(x$nfactors)[i]," confidence", sep = "")
-    cat(al, ", NEST suggests ", crayon::blue(x$nfactors[i,], .s(x$nfactors[i,], "factor")), ". \n", sep = "")
+    cat(al, ", ", x$stopping.rule, " suggests ", crayon::blue(x$nfactors[i,], .s(x$nfactors[i,], "factor")), ". \n", sep = "")
   }
-  }
+}
 
 # .s ####
 .s <- function(x, w = NULL){

@@ -56,17 +56,16 @@
 nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data), method = "ml", ...){
   
   R <- prepare.nest(data, n = n)
-  CI <- paste0((1 - sort(alpha)) * 100,"%")
+
   R$alpha <- alpha
   R$method <- method
   R$Eig <- list()
   test.eig <- rep(TRUE, length(R$alpha))
   
-  nfactors <- t(setNames(data.frame(matrix(0,
-                                           ncol = length(R$alpha),
-                                           nrow = 1)),
-                         nm = CI))
-  colnames(nfactors) <- "nfactors"
+  nf <- .nf(alpha)
+  nfactors <- nf$nfactors
+  CI <- nf$CI
+  R$alpha <- nf$alpha
   
   for (i in 0:max.fact){
     if(all(!test.eig)) {
@@ -108,13 +107,14 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data)
     
   }
   
-  structure(c(list(nfactors = nfactors), R), class = "nest")
+  return(structure(c(list(nfactors = nfactors), R, list(stopping.rule = "Nest Eigenvalue Sufficiency Test (NEST)")), class = "nest"))
   
 }
 
 # prepare.nest ####
 prepare.nest <- function(data, n = NULL){
   
+  data <- as.matrix(data)
   out <- list()
   
   if(isSymmetric.matrix(data)){
@@ -161,7 +161,7 @@ prepare.nest <- function(data, n = NULL){
     
     res <- eigen(covmat, symmetric = TRUE)
     ld <- res$vectors[,1:factors] %*% diag(sqrt(res$values[1:factors]), ncol = ncol(covmat))
-    co = rowSums(ld^2)
+    co <- rowSums(ld^2)
     
     # Check communalities
     
@@ -195,5 +195,15 @@ mrfa <- function(covmat, n, factors, ...){
   list(loadings = fa$A, uniquenesses = 1-fa$gam)
 }
 
-
+.nf <- function(alpha){
+  alpha <- sort(alpha)
+  CI <- paste0((1 - alpha) * 100,"%")
+  nfactors <- t(setNames(data.frame(matrix(0,
+                                           ncol = length(alpha),
+                                           nrow = 1)),
+                         nm = CI))
+  colnames(nfactors) <- "nfactors"
+  out <- list(nfactors = nfactors,  CI = CI, alpha = alpha)
+  return(out)
+}
 

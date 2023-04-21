@@ -4,10 +4,12 @@
 \alias{plot.nest}
 \title{Print results of NEST}
 \usage{
-\method{plot}{nest}(x, y, ...)
+\method{plot}{nest}(x, pa = FALSE, y, ...)
 }
 \arguments{
 \item{x}{An object of class "nest".}
+
+\item{pa}{Show results of Parallel Analysis.}
 
 \item{y}{Further arguments for other methods, ignored for "nest".}
 
