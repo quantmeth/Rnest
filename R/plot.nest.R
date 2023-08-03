@@ -35,9 +35,9 @@ plot.nest <- function(x, pa = FALSE, y, ...){
   }
   
   ggplot2::ggplot(df,
-                  mapping = aes(x = Position,
-                                y = Eigenvalues,
-                                color = Confidence)) +
+                  mapping = aes(x = df$Position,
+                                y = df$Eigenvalues,
+                                color = df$Confidence)) +
     geom_line(linetype = "dashed") +
     geom_point() +
     scale_color_manual(values = col.pal) +
