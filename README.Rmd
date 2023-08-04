@@ -19,6 +19,17 @@ write_matex <- function(x) {
     })
   writeLines(c(begin, X, end))
 }
+library(htmltools)
+knitr::opts_chunk$set(
+  fig.align = "center"
+)
+knitr::knit_hooks$set(imgcenter = function(before, options, envir){
+  if (before) {
+    HTML("<p align='center'>")
+  } else {
+    HTML("</p>")
+  }
+})
 ```
 
 # Rnest: An R package for the Next Eigenvalue Sufficiency Test
@@ -40,7 +51,7 @@ library(Rnest)
 
 Here is an example using the `ex_4factors_corr` correlation matrix from the `Rnest` library. The factor structure is
 
-```{r factstruct, echo = FALSE, out.height="50%", out.width="50%", fig.align='center'}
+```{r factstruct, echo = FALSE, out.height="50%", out.width="50%", imgcenter='center'}
 knitr::include_graphics("inst/ex_4factors_corr.png")
 ```
 
@@ -67,7 +78,7 @@ nest(mydata)
 
 We can visualize the results using the generic function `plot()`.
 
-```{r plot, fig.cap="Scree plot of NEST", fig.align='center'}
+```{r plot, fig.cap="Scree plot of NEST", imgcenter='center'}
 res <- nest(mydata)
 plot(res)
 ```
@@ -80,14 +91,12 @@ It is also possible to use a correlation matrix directly. A sample size, `n` mus
 nest(ex_4factors_corr, n = 240)
 ```
 
-The `nest()` can use many $\alpha$ values if desired.
+The `nest()` function can use with many $\alpha$ values if desired.
 
-```{r plot2, fig.cap="Scree plot of NEST with many $\\alpha$", fig.align='center'}
+```{r plot2, fig.cap="Scree plot of NEST with many $\\alpha$", imgcenter='center'}
 res <- nest(ex_4factors_corr, n = 120, alpha = c(.01,.025,.05,.1))
 plot(res)
 ```
-
-
 
 # How to cite
 

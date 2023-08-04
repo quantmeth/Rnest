@@ -24,7 +24,9 @@ library(Rnest)
 Here is an example using the `ex_4factors_corr` correlation matrix from
 the `Rnest` library. The factor structure is
 
+<p align="center">
 <img src="inst/ex_4factors_corr.png" width="50%" height="50%" style="display: block; margin: auto;" />
+</p>
 
 and the correlation matrix is
 
@@ -63,6 +65,8 @@ nest(mydata)
 
 We can visualize the results using the generic function `plot()`.
 
+<p align="center">
+
 ``` r
 res <- nest(mydata)
 plot(res)
@@ -77,6 +81,8 @@ Scree plot of NEST
 
 </div>
 
+</p>
+
 The above figure shows the empirical eigenvalues in blue and the
 95<sup>th</sup> percentile of the sampled eigenvalues.
 
@@ -89,7 +95,9 @@ nest(ex_4factors_corr, n = 240)
 
     ## At 95% confidence, Nest Eigenvalue Sufficiency Test (NEST) suggests 2 factors.
 
-The `nest()` can use many $\alpha$ values if desired.
+The `nest()` function can use with many $\alpha$ values if desired.
+
+<p align="center">
 
 ``` r
 res <- nest(ex_4factors_corr, n = 120, alpha = c(.01,.025,.05,.1))
@@ -104,6 +112,8 @@ Scree plot of NEST with many $\alpha$
 </p>
 
 </div>
+
+</p>
 
 # How to cite
 
