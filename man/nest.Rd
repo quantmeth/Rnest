@@ -25,7 +25,7 @@ nest(
 
 \item{max.fact}{An optional maximum number of factor to extract. Default is \code{max.fact = ncol(data)}.}
 
-\item{method}{A method used to compute loadings and uniquenesses. Two methods are implemented in \code{Rnest} : maximum likelihood \code{method = "lm"} (default) and principal axis factoring \code{method = "paf"}. See details for custom methods.}
+\item{method}{A method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.}
 
 \item{...}{Arguments for \code{method} that can be supplied. See details.}
 }

@@ -7,9 +7,8 @@
 #' @param nrep The number of replications to simulate. Default is 1000.
 #' @param alpha A vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.
 #' @param max.fact An optional maximum number of factor to extract. Default is \code{max.fact = ncol(data)}.
-#' @param method A method used to compute loadings and uniquenesses. Two methods are implemented in \code{Rnest} : maximum likelihood \code{method = "lm"} (default) and principal axis factoring \code{method = "paf"}. See details for custom methods.
+#' @param method A method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.
 #' @param ... Arguments for \code{method} that can be supplied. See details.
-#'
 #'
 #' @details 
 #' The Next Eigenvalues Sufficiency Test (NEST) is an extension of parallel analysis by adding a sequential hypothesis testing procedure for every \eqn{k = 1, ..., p} factor until the hypothesis is not rejected. 
@@ -46,6 +45,7 @@
 #'
 #' @import stats
 #' @import EFA.MRFA
+#' @import fungible
 #' @export  
 #'
 #' @examples
@@ -193,6 +193,11 @@ ml <- function(covmat, n, factors, ...){
 mrfa <- function(covmat, n, factors, ...){
   fa <- EFA.MRFA::mrfa(SIGMA = covmat, dimensionality = factors, ...)
   list(loadings = fa$A, uniquenesses = 1-fa$gam)
+}
+
+rcfa <- function(covmat, n, factors, ...){
+  fa <- fungible::fareg(R = covmat, numFactors =  factors)
+  list(loadings = fa$loadings, uniquenesses = 1-fa$h2)
 }
 
 .nf <- function(alpha){
