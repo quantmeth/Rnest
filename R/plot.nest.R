@@ -25,13 +25,16 @@
 plot.nest <- function(x, pa = FALSE, y, ...){
   
   df <- data2plot(x, pa)
+  Position <- df$Position
+  Eigenvalues <- df$Eigenvalues
+  Confidence <- df$Confidence 
   
   if(pa == FALSE){
-  col.pal <- c(grey(seq(0.75, .2, length.out = length(x$alpha))), "blue")
+    col.pal <- c(grey(seq(0.75, .2, length.out = length(x$alpha))), "blue")
   } else {
-  col.pal <- c(grey(seq(0.75, .2, length.out = length(x$alpha))), "blue", c(rgb(1, 
-                                                                                seq(0, .5, length.out = length(x$alpha)), 
-                                                                                seq(0, .5, length.out = length(x$alpha))))[length(x$alpha):1])
+    col.pal <- c(grey(seq(0.75, .2, length.out = length(x$alpha))), "blue", c(rgb(1, 
+                                                                                  seq(0, .5, length.out = length(x$alpha)), 
+                                                                                  seq(0, .5, length.out = length(x$alpha))))[length(x$alpha):1])
   }
   
   ggplot2::ggplot(df,
@@ -46,6 +49,17 @@ plot.nest <- function(x, pa = FALSE, y, ...){
     labs(title = paste(x$stopping.rule)) +
     theme(legend.position = c(.8, .8))
   
+  
+  ggplot2::ggplot(mapping = aes(x = Position,
+                                y = Eigenvalues,
+                                color = Confidence)) +
+    geom_line(linetype = "dashed") +
+    geom_point() +
+    scale_color_manual(values = col.pal) +
+    scale_x_continuous(breaks = scales::pretty_breaks())+
+    scale_y_continuous(breaks = scales::pretty_breaks()) +
+    labs(title = paste(x$stopping.rule)) +
+    theme(legend.position = c(.8, .8))
   
 }
 
@@ -62,8 +76,8 @@ data2plot <- function(x, pa = FALSE){
   if(length(x$Eig) == 1){
     
     pa <- TRUE
-  
-    } else {
+    
+  } else {
     
     for(i in 1:length(x$Eig)){
       df <- rbind(df, data.frame(Position = rep(i, length(x$alpha)),
