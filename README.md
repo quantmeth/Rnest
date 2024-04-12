@@ -15,7 +15,7 @@ analysis.
 The development version can be accessed through GitHub:
 
 ``` r
-remotes::install_github(repo = "quanthmeth/Rnest")
+remotes::install_github(repo = "quantmeth/Rnest")
 library(Rnest)
 ```
 
@@ -58,17 +58,35 @@ mydata <- MASS::mvrnorm(n = 2500,
 We can then carry NEST.
 
 ``` r
-nest(mydata)
+res <- nest(mydata)
+res
 ```
 
     ## At 95% confidence, Nest Eigenvalue Sufficiency Test (NEST) suggests 4 factors.
 
-We can visualize the results using the generic function `plot()`.
+The first output tells hom many factors NEST suggest. We can also
+consult the summary with
+
+``` r
+summary(res)
+```
+
+    ##               Length Class  Mode     
+    ## nfactors        1    -none- numeric  
+    ## cor           144    -none- numeric  
+    ## n               1    -none- numeric  
+    ## values         12    -none- numeric  
+    ## alpha           1    -none- numeric  
+    ## method          1    -none- character
+    ## Eig             5    -none- list     
+    ## stopping.rule   1    -none- character
+
+We can visualize the results using the generic function `plot()` using
+the `nest()` output.
 
 <p align="center">
 
 ``` r
-res <- nest(mydata)
 plot(res)
 ```
 

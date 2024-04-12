@@ -4,7 +4,8 @@
 #' @param x An object of class "nest".
 #' @param ... Further arguments for other methods, ignored for "nest".
 #'
-#' @importFrom crayon red blue green
+#' @importFrom crayon blue
+#' @importFrom utils packageVersion
 #' @export
 #'
 #' @examples 

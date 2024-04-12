@@ -28,6 +28,8 @@
 #'   \item \code{values} - The eigenvalues of the supplied correlation matrix.
 #'   \item \code{alpha} - The type I error rate.
 #'   \item \code{method} - The method used to compute loadings and uniquenesses.
+#'   \item \code{nrep} - The number of replications used.
+#'   \item \code{prob} - Probabilities of each factor.
 #'   \item \code{Eig} - A list of simulated eigenvalues.
 #' }
 #'
@@ -59,7 +61,9 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data)
 
   R$alpha <- alpha
   R$method <- method
+  R$nrep <- nrep
   R$Eig <- list()
+  R$prob <- numeric()
   test.eig <- rep(TRUE, length(R$alpha))
   
   nf <- .nf(alpha)
@@ -83,8 +87,8 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data)
         M <- do.call(method[[1]],
                      list(covmat = R$cor,
                           n = R$n,
-                          factors = i, 
-                          ...))
+                          factors = i))#, 
+                          #...))
         M <- cbind(M$loadings, diag(sqrt(M$uniquenesses)))
         
       }
@@ -92,6 +96,7 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data)
       Rep <- as.matrix(replicate(n = nrep,
                                  expr = .reig(n = R$n,
                                               M = M)))
+      R$prob[i+1] <- sum(R$values[i+1] < Rep[i+1,])  / nrep 
       
       R$Eig[[i+1]] <- matrix(apply(X = Rep,
                                    MARGIN = 1,

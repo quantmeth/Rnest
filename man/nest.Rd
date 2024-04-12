@@ -41,6 +41,8 @@ An object of class \code{nest} is a list containing the following components:
   \item \code{values} - The eigenvalues of the supplied correlation matrix.
   \item \code{alpha} - The type I error rate.
   \item \code{method} - The method used to compute loadings and uniquenesses.
+  \item \code{nrep} - The number of replications used.
+  \item \code{prob} - Probabilities of each factor.
   \item \code{Eig} - A list of simulated eigenvalues.
 }
 }

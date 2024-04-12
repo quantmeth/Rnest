@@ -43,7 +43,7 @@ There is also many examples of correlation matrices available with the packages 
 The development version can be accessed through GitHub:
 
 ```{r, echo = TRUE, eval = FALSE}
-remotes::install_github(repo = "quanthmeth/Rnest")
+remotes::install_github(repo = "quantmeth/Rnest")
 library(Rnest)
 ```
 
@@ -73,13 +73,19 @@ mydata <- MASS::mvrnorm(n = 2500,
 We can then carry NEST.
 
 ```{r nest1}
-nest(mydata)
+res <- nest(mydata)
+res
 ```
 
-We can visualize the results using the generic function `plot()`.
+The first output tells hom many factors NEST suggest. We can also consult the summary with
+
+```{r summarynest}
+summary(res)
+```
+
+We can visualize the results using the generic function `plot()` using the `nest()` output.
 
 ```{r plot, fig.cap="Scree plot of NEST", imgcenter='center'}
-res <- nest(mydata)
 plot(res)
 ```
 
