@@ -71,15 +71,28 @@ consult the summary with
 summary(res)
 ```
 
-    ##               Length Class  Mode     
-    ## nfactors        1    -none- numeric  
-    ## cor           144    -none- numeric  
-    ## n               1    -none- numeric  
-    ## values         12    -none- numeric  
-    ## alpha           1    -none- numeric  
-    ## method          1    -none- character
-    ## Eig             5    -none- list     
-    ## stopping.rule   1    -none- character
+    ## 
+    ## nest 0.0.0.1 ended normally 
+    ##  
+    ##    Estimator                       ML 
+    ##    Number of model parameters      66 
+    ##    Resampling                      1000 
+    ##    Sample size                     2500 
+    ##    Stopped at                      5 
+    ##  
+    ##  
+    ## Probabilities of factors 
+    ##   Factor     Eigenvalue     Prob 
+    ##     F1         3.228       < .001 
+    ##     F2         3.167       < .001 
+    ##     F3         1.007         .009 
+    ##     F4         0.972         .009 
+    ##     F5         0.860         .735 
+    ## 
+    ##  
+    ## At 95% confidence, Nest Eigenvalue Sufficiency Test (NEST) suggests 4 factors. 
+    ## Try plot(nest()) to see a graphical representation of the results. 
+    ## 
 
 We can visualize the results using the generic function `plot()` using
 the `nest()` output.
