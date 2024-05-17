@@ -17,7 +17,7 @@
 #' 
 #' There is two \code{method} already implemented in \code{nest} to extract loadings and uniquenesses: maximum likelihood (\code{"ml"}; default), principal axis factoring (\code{"paf"}), and minimum rank factor analysis (\code{"mrfa"}). The functions use as arguments: \code{covmat}, \code{n}, \code{factors}, and \code{...} (supplementary arguments passed by \code{nest}). They return \code{loadings} and \code{uniquenesses}. Any other user-defined functions can be used as long as it is programmed likewise.
 #'
-#' @return \code{nest} returns an object of class code{nest}. The functions \code{summary} and \code{plot} are used to obtain and show a summary of the results.
+#' @return \code{nest} returns an object of class \code{nest}. The functions \code{summary} and \code{plot} are used to obtain and show a summary of the results.
 #' 
 #' An object of class \code{nest} is a list containing the following components:
 #' 
@@ -43,7 +43,7 @@
 #' P.-O. Caron
 #'
 #' @references
-#' Achim, A. (2017). Testing the number of required dimensions in exploratory factor analysis. \emph{The Quantitative Methods for Psychology}, \emph{13}(1), 64-74. \url{https://doi.org/10.20982/tqmp.13.1.p064}
+#' Achim, A. (2017). Testing the number of required dimensions in exploratory factor analysis. \emph{The Quantitative Methods for Psychology}, \emph{13}(1), 64-74. \doi{10.20982/tqmp.13.1.p064}
 #'
 #' @import stats
 #' @import EFA.MRFA

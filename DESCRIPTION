@@ -1,6 +1,6 @@
 Package: Rnest
 Type: Package
-Title: Rnest : An R package for the Next Eigenvalue Sufficiency Test
+Title: Next Eigenvalue Sufficiency Test
 Version: 0.0.0.1
 Authors@R:
     c(person(given = "P.-O.",
@@ -8,8 +8,6 @@ Authors@R:
              role = c("aut","cre","cph"),
              email = "pocaron19@gmail.com",
              comment = c(ORCID = "0000-0001-6346-5583")))
-Author: P.-O. Caron [aut, cre]
-Maintainer: P.-O. Caron <pier-olivier.caron@teluq.ca>
 Description: Determine the number of dimensions to retain in exploratory factor analysis. The main function, nest(), returns the solution and the plot(nest()) returns a plot.
 License: MIT + file LICENSE
 Encoding: UTF-8
