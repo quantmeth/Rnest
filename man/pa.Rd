@@ -36,8 +36,6 @@ nfactors (if data is supplied) and sampled eigenvalues
 Parallel analysis
 }
 \examples{
-\dontrun{
-pa(ex_2factors)
+pa(ex_2factors, n = 42)
 E <- pa(n = 10, p = 2, nrep = 5)
-}
 }

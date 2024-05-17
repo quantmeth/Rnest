@@ -7,6 +7,8 @@
 #' @param y Further arguments for other methods, ignored for "nest".
 #' @param ... Further arguments for other methods, ignored for "nest".
 #' 
+#' @return A ggplot output.
+#' 
 #' @note This function is more interesting with many \code{alpha} values.
 #'
 #' @import ggplot2
@@ -16,12 +18,10 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' results <- nest(ex_2factors, n = 100, alpha = c(.01, .05, .01))
 #' plot(results)
 #' # Return the data used to produce the plot
 #' df <- plot(results)$data
-#' }
 plot.nest <- function(x, pa = FALSE, y, ...){
   
   df <- data2plot(x, pa)

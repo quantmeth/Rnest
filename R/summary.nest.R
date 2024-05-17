@@ -4,14 +4,14 @@
 #' @param object An object of class "nest".
 #' @param ... Further arguments for other methods, ignored for "nest".
 #'
+#' @return No return value, called for side effects.
+#'
 #' @importFrom crayon blue
 #' @export
 #'
 #' @examples 
-#' \dontrun{
 #' results <- nest(ex_2factors, n = 100)
 #' summary(results)
-#' }
 summary.nest <- function(object, ...){
   cat("\n")
   cat("nest",  paste0(unlist(packageVersion("Rnest")), collapse = "."),"ended normally \n \n")
@@ -33,6 +33,5 @@ summary.nest <- function(object, ...){
   print(object)
   cat("Try", crayon::blue("plot(nest())"), "to see a graphical representation of the results. \n \n")
  
-   
 }
 numformat <- function(val) {sub("^(-?)0.", "\\1.", sprintf("%.3f", val))}

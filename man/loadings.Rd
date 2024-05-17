@@ -15,6 +15,9 @@ loadings(x, nfactors = x$nfactors, method = x$method, ...)
 
 \item{...}{Further arguments to methods in "nest" or the \code{stats::loadings} function.}
 }
+\value{
+A \eqn{p \times k} matrix containing loadings where \eqn{p} is the number of variables and \eqn{k} is the number of factors (\code{nfactors}).
+}
 \description{
 Print Loadings in NEST
 }
@@ -22,8 +25,6 @@ Print Loadings in NEST
 See \code{stats::loadings} for the original documentation.
 }
 \examples{
-\dontrun{
 results <- nest(ex_2factors, n = 100)
 loadings(results)
-}
 }

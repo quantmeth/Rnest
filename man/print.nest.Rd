@@ -11,12 +11,13 @@
 
 \item{...}{Further arguments for other methods, ignored for "nest".}
 }
+\value{
+No return value, called for side effects.
+}
 \description{
 Print the number of factors to retain according to confidence levels.
 }
 \examples{
-\dontrun{
 results <- nest(ex_2factors, n = 100)
 print(results)
-}
 }

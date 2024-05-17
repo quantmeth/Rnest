@@ -12,10 +12,8 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' pa(ex_2factors)
+#' pa(ex_2factors, n = 42)
 #' E <- pa(n = 10, p = 2, nrep = 5)
-#' }
 pa <- function(data = NULL, n = NULL, p = NULL, nrep = 1000, alpha = .05, crit = NULL, ...){
   
   eig <- NULL

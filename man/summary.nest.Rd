@@ -11,12 +11,13 @@
 
 \item{...}{Further arguments for other methods, ignored for "nest".}
 }
+\value{
+No return value, called for side effects.
+}
 \description{
 summary method for class "nest".
 }
 \examples{
-\dontrun{
 results <- nest(ex_2factors, n = 100)
 summary(results)
-}
 }

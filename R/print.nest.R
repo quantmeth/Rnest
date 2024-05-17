@@ -7,12 +7,12 @@
 #' @importFrom crayon blue
 #' @importFrom utils packageVersion
 #' @export
+#' 
+#' @return No return value, called for side effects.
 #'
 #' @examples 
-#' \dontrun{
 #' results <- nest(ex_2factors, n = 100)
 #' print(results)
-#' }
 print.nest <- function(x, ...){
   for(i in 1:length(x$alpha)){
     al <- paste0("At ",rownames(x$nfactors)[i]," confidence", sep = "")

@@ -4,15 +4,15 @@
 #' @param nfactors The number of factors to retains.
 #' @param method A method used to compute loadings and uniquenesses.
 #' @param ... Further arguments to methods in "nest" or the \code{stats::loadings} function.
-#'
+#' 
+#' @return A \eqn{p \times k} matrix containing loadings where \eqn{p} is the number of variables and \eqn{k} is the number of factors (\code{nfactors}).
+#' 
 #' @note See \code{stats::loadings} for the original documentation.
 #' @export
 #'
 #' @examples 
-#' \dontrun{
 #' results <- nest(ex_2factors, n = 100)
 #' loadings(results)
-#' }
 loadings <- function(x, nfactors = x$nfactors, method = x$method, ...){
   if(inherits(x, "nest")){
     
