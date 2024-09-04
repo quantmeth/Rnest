@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @references 
-#' Galdwin, T. E. (2023) Estimating the number of principal components via Split-Half Eigenvector Matching (SHEM). \emph{MethodsX}, \emph{11], 102286. \doi{10.1016/j.mex.2023.102286}
+#' Galdwin, T. E. (2023) Estimating the number of principal components via Split-Half Eigenvector Matching (SHEM). \emph{MethodsX}, \emph{11}, 102286. \doi{10.1016/j.mex.2023.102286}
 #'
 #' @examples
 #' jd <- genr8(n = 404, R = ex_4factors_corr)

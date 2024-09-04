@@ -11,7 +11,7 @@
 #' @return No return value, called for side effects.
 #'
 #' @examples 
-#' results <- nest(ex_2factors, N = 100)
+#' results <- nest(ex_2factors, n = 100)
 #' print(results)
 print.nest <- function(x, ...){
   for(i in 1:length(x$alpha)){
