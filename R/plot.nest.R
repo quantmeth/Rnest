@@ -62,6 +62,8 @@ plot.nest <- function(x, pa = FALSE, y, ...){
     theme(legend.position = c(.8, .8))
   
   a$data <- df
+  
+  a
 }
 
 
