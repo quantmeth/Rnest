@@ -37,20 +37,20 @@ plot.nest <- function(x, pa = FALSE, y, ...){
                                                                                   seq(0, .5, length.out = length(x$alpha))))[length(x$alpha):1])
   }
   
-  ggplot2::ggplot(df,
-                  mapping = aes(x = df$Position,
-                                y = df$Eigenvalues,
-                                color = df$Confidence)) +
-    geom_line(linetype = "dashed") +
-    geom_point() +
-    scale_color_manual(values = col.pal) +
-    scale_x_continuous(breaks = scales::pretty_breaks())+
-    scale_y_continuous(breaks = scales::pretty_breaks()) +
-    labs(title = paste(x$stopping.rule)) +
-    theme(legend.position = c(.8, .8))
+  # ggplot2::ggplot(df,
+  #                 mapping = aes(x = df$Position,
+  #                               y = df$Eigenvalues,
+  #                               color = df$Confidence)) +
+  #   geom_line(linetype = "dashed") +
+  #   geom_point() +
+  #   scale_color_manual(values = col.pal) +
+  #   scale_x_continuous(breaks = scales::pretty_breaks())+
+  #   scale_y_continuous(breaks = scales::pretty_breaks()) +
+  #   labs(title = paste(x$stopping.rule)) +
+  #   theme(legend.position = c(.8, .8))
   
-  
-  ggplot2::ggplot(mapping = aes(x = Position,
+
+  a <- ggplot2::ggplot(mapping = aes(x = Position,
                                 y = Eigenvalues,
                                 color = Confidence)) +
     geom_line(linetype = "dashed") +
@@ -61,6 +61,7 @@ plot.nest <- function(x, pa = FALSE, y, ...){
     labs(title = paste(x$stopping.rule)) +
     theme(legend.position = c(.8, .8))
   
+  a$data <- df
 }
 
 
