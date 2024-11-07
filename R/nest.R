@@ -8,6 +8,7 @@
 #' @param alpha A vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.
 #' @param max.fact An optional maximum number of factor to extract. Default is \code{max.fact = ncol(data)}.
 #' @param method A method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.
+#' @param na.action How should missing data be removed. \code{"na.omit"} removes complete rows with at least one single missing data. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are "everything", "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs". Default is "fiml.
 #' @param ... Arguments for \code{method} that can be supplied. See details.
 #'
 #' @details 
@@ -48,15 +49,16 @@
 #' @import stats
 #' @import EFA.MRFA
 #' @import fungible
+#' @importFrom psych corFiml
 #' @export  
 #'
 #' @examples
 #' nest(ex_2factors, n = 100)
 #' nest(mtcars)
-nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data), method = "ml", ...){
+nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data), method = "ml", na.action = "fiml", ...){
   
-  R <- prepare.nest(data, n = n)
-
+  R <- prepare.nest(data, n = n, na.action = na.action)
+  
   R$alpha <- alpha
   R$method <- method
   R$nrep <- nrep
@@ -86,7 +88,7 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data)
                      list(covmat = R$cor,
                           n = R$n,
                           factors = i))#, 
-                          #...))
+        #...))
         M <- cbind(M$loadings, diag(sqrt(M$uniquenesses)))
         
       }
@@ -115,7 +117,7 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data)
 }
 
 # prepare.nest ####
-prepare.nest <- function(data, n = NULL){
+prepare.nest <- function(data, n = NULL, na.action = "fiml"){
   
   data <- as.matrix(data)
   out <- list()
@@ -134,7 +136,19 @@ prepare.nest <- function(data, n = NULL){
       out$n <- n
     }
   } else {
-    out$cor <- cor(data)
+    if(anyNA(data)){
+      # to opt
+      if(na.action == "fiml") {
+        out$cor <- psych::corFiml(x = data)
+      } else if (na.action == "na.omit"){
+        out$cor <- cor(na.omit(data))
+      } else {
+        out$cor <- cor(data, use = na.action)
+      }
+    } else {
+      out$cor <- cor(data)
+    }
+    
     out$n <- nrow(data)
   }
   

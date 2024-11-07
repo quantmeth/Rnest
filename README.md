@@ -72,7 +72,7 @@ summary(res)
 ```
 
     ## 
-    ## nest 0.0.0.1 ended normally 
+    ## nest 0.0.0.2 ended normally 
     ##  
     ##    Estimator                       ML 
     ##    Number of model parameters      66 

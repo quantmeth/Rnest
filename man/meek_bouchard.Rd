@@ -14,6 +14,6 @@ A 44 by 44 correlation matrix
 meek_bouchard
 }
 \description{
-An empirical correlation matrix composed of 44 items given by Meek-Bouchard, C. (personal communication).
+A sample correlation matrix composed of 44 items given by Meek-Bouchard, C. (personal communication).
 }
 \keyword{datasets}

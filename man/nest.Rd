@@ -11,6 +11,7 @@ nest(
   alpha = 0.05,
   max.fact = ncol(data),
   method = "ml",
+  na.action = "fiml",
   ...
 )
 }
@@ -26,6 +27,8 @@ nest(
 \item{max.fact}{An optional maximum number of factor to extract. Default is \code{max.fact = ncol(data)}.}
 
 \item{method}{A method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.}
+
+\item{na.action}{How should missing data be removed. \code{"na.omit"} removes complete rows with at least one single missing data. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are "everything", "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs". Default is "fiml.}
 
 \item{...}{Arguments for \code{method} that can be supplied. See details.}
 }

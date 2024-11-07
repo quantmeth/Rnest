@@ -4,7 +4,7 @@
 #' @param object An object of class "nest".
 #' @param ... Further arguments for other methods, ignored for "nest".
 #'
-#' @return No return value, called for side effects.
+#' @return No returned value, called for side effects.
 #'
 #' @importFrom crayon blue
 #' @export

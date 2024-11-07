@@ -2,16 +2,14 @@
 % Please edit documentation in R/plot.nest.R
 \name{plot.nest}
 \alias{plot.nest}
-\title{Print results of NEST}
+\title{Plot results of NEST}
 \usage{
-\method{plot}{nest}(x, pa = FALSE, y, ...)
+\method{plot}{nest}(x, pa = FALSE, ...)
 }
 \arguments{
 \item{x}{An object of class "nest".}
 
 \item{pa}{Show results of Parallel Analysis.}
-
-\item{y}{Further arguments for other methods, ignored for "nest".}
 
 \item{...}{Further arguments for other methods, ignored for "nest".}
 }

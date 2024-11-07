@@ -1,7 +1,7 @@
 Package: Rnest
 Type: Package
 Title: Next Eigenvalue Sufficiency Test
-Version: 0.0.0.2
+Version: 0.0.0.3
 Authors@R:
     c(person(given = "P.-O.",
              family = "Caron",
@@ -19,4 +19,5 @@ Imports:
   scales (>= 1.0.0),
   EFA.MRFA (>= 1.1.2),
   fungible (>= 2.3),
-  MASS (>= 7.3-58.1)
+  MASS (>= 7.3-58.1),
+  psych(>= 2.4.6.25)

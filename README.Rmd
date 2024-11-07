@@ -6,7 +6,9 @@ csl: "inst/apa.csl"
 
 
 ```{r setup, include = FALSE, warning=FALSE, comment = FALSE}
-library(Rnest)
+#library(Rnest)
+devtools::load_all()
+set.seed(42)
 write_matex <- function(x) {
   begin <- "$$\\begin{bmatrix}"
   end <- "\\end{bmatrix}$$"

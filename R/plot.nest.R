@@ -1,10 +1,9 @@
-#' Print results of NEST
+#' Plot results of NEST
 #'
 #' @description Scree plot of the eigenvalues and the \code{(1-alpha)*100\%} confidence intervals derived from the resampled eigenvalues supplied to \code{nest}.
 #' 
 #' @param x An object of class "nest".
 #' @param pa Show results of Parallel Analysis.
-#' @param y Further arguments for other methods, ignored for "nest".
 #' @param ... Further arguments for other methods, ignored for "nest".
 #' 
 #' @return A ggplot output.
@@ -22,12 +21,12 @@
 #' plot(results)
 #' # Return the data used to produce the plot
 #' df <- plot(results)$data
-plot.nest <- function(x, pa = FALSE, y, ...){
+plot.nest <- function(x, pa = FALSE, ...){
   
   df <- data2plot(x, pa)
-  Position <- df$Position
-  Eigenvalues <- df$Eigenvalues
-  Confidence <- df$Confidence 
+  # Position <- df$Position
+  # Eigenvalues <- df$Eigenvalues
+  # Confidence <- df$Confidence 
   
   if(pa == FALSE){
     col.pal <- c(grey(seq(0.75, .2, length.out = length(x$alpha))), "blue")
@@ -49,10 +48,11 @@ plot.nest <- function(x, pa = FALSE, y, ...){
   #   labs(title = paste(x$stopping.rule)) +
   #   theme(legend.position = c(.8, .8))
   
-
-  a <- ggplot2::ggplot(mapping = aes(x = Position,
-                                y = Eigenvalues,
-                                color = Confidence)) +
+  
+  a <- ggplot2::ggplot(data = df,
+                       mapping = aes(x = .data$Position,
+                                     y = .data$Eigenvalues,
+                                     color = .data$Confidence)) +
     geom_line(linetype = "dashed") +
     geom_point() +
     scale_color_manual(values = col.pal) +
