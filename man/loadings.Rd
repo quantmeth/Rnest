@@ -7,13 +7,13 @@
 loadings(x, nfactors = x$nfactors, method = x$method, ...)
 }
 \arguments{
-\item{x}{An object of class "nest".}
+\item{x}{an object of class "nest".}
 
-\item{nfactors}{The number of factors to retains.}
+\item{nfactors}{the number of factors to retains.}
 
-\item{method}{A method used to compute loadings and uniquenesses.}
+\item{method}{a method used to compute loadings and uniquenesses.}
 
-\item{...}{Further arguments to methods in "nest" or the \code{stats::loadings} function.}
+\item{...}{further arguments to methods in "nest" or the \code{stats::loadings} function.}
 }
 \value{
 A \eqn{p \times k} matrix containing loadings where \eqn{p} is the number of variables and \eqn{k} is the number of factors (\code{nfactors}).

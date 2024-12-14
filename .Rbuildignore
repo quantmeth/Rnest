@@ -4,4 +4,5 @@
 ^README.Rmd
 ^README_files
 ^Matlab
+^test
 ^cran-comments\.md$

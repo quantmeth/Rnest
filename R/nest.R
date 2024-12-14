@@ -1,15 +1,15 @@
-#' Nest Eigenvalue Sufficiency Test (NEST)
+#' Next Eigenvalue Sufficiency Test (NEST)
 #'
 #' @description \code{nest} is used to identify the number of factors to retain in exploratory factor analysis.
 #'
-#' @param data A data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.
-#' @param n The number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{data}.
-#' @param nrep The number of replications to simulate. Default is 1000.
-#' @param alpha A vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.
-#' @param max.fact An optional maximum number of factor to extract. Default is \code{max.fact = ncol(data)}.
-#' @param method A method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.
-#' @param na.action How should missing data be removed. \code{"na.omit"} removes complete rows with at least one single missing data. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are "everything", "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs". Default is "fiml.
-#' @param ... Arguments for \code{method} that can be supplied. See details.
+#' @param .data a data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.
+#' @param n the number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{.data}.
+#' @param nreps the number of replications to simulate. Default is 1000.
+#' @param alpha a vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.
+#' @param max.fact an optional maximum number of factor to extract. Default is \code{TRUE}, so maximum number possible.
+#' @param method a method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.
+#' @param na.action how should missing data be removed. \code{"na.omit"} removes complete rows with at least one single missing data. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are "everything", "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs". Default is "fiml".
+#' @param ... arguments for \code{method} that can be supplied. See details.
 #'
 #' @details 
 #' The Next Eigenvalues Sufficiency Test (NEST) is an extension of parallel analysis by adding a sequential hypothesis testing procedure for every \eqn{k = 1, ..., p} factor until the hypothesis is not rejected. 
@@ -29,7 +29,7 @@
 #'   \item \code{values} - The eigenvalues of the supplied correlation matrix.
 #'   \item \code{alpha} - The type I error rate.
 #'   \item \code{method} - The method used to compute loadings and uniquenesses.
-#'   \item \code{nrep} - The number of replications used.
+#'   \item \code{nreps} - The number of replications used.
 #'   \item \code{prob} - Probabilities of each factor.
 #'   \item \code{Eig} - A list of simulated eigenvalues.
 #' }
@@ -39,7 +39,9 @@
 #' \code{plot.nest} Scree plot of the eigenvalues and the simulated confidence intervals for \code{alpha}.
 #'
 #' \code{loadings} Extract loadings. It does not overwrite \code{stat::loadings}.
-#'
+#' 
+#' \code{summary.nest} Summary statistics for the number of factors.
+#' 
 #' @author
 #' P.-O. Caron
 #'
@@ -49,19 +51,29 @@
 #' @import stats
 #' @import EFA.MRFA
 #' @import fungible
-#' @importFrom psych corFiml
 #' @export  
+#' 
+#' @aliases NEST
 #'
 #' @examples
 #' nest(ex_2factors, n = 100)
 #' nest(mtcars)
-nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data), method = "ml", na.action = "fiml", ...){
+nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = TRUE, method = "ml", na.action = "fiml"){
   
-  R <- prepare.nest(data, n = n, na.action = na.action)
+  if(!(is.matrix(.data) || is.data.frame(.data) || is.array(.data))){
+    ls <- .data
+    if(!is.null(ls$n)) n <- ls$n
+    if(!is.null(ls$covmat)) {.data <- ls$covmat
+    } else {
+      .data <- ls$.data
+    }
+  }
+  
+  R <- prepare.nest(.data, n = n, na.action = na.action)
   
   R$alpha <- alpha
   R$method <- method
-  R$nrep <- nrep
+  R$nreps <- nreps
   R$Eig <- list()
   R$prob <- numeric()
   test.eig <- rep(TRUE, length(R$alpha))
@@ -70,6 +82,8 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data)
   nfactors <- nf$nfactors
   CI <- nf$CI
   R$alpha <- nf$alpha
+  
+  if(max.fact) max.fact <- .max.fact(ncol(R$cor))
   
   for (i in 0:max.fact){
     if(all(!test.eig)) {
@@ -93,10 +107,10 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data)
         
       }
       
-      Rep <- as.matrix(replicate(n = nrep,
+      Rep <- as.matrix(replicate(n = nreps,
                                  expr = .reig(n = R$n,
                                               M = M)))
-      R$prob[i+1] <- sum(R$values[i+1] < Rep[i+1,])  / nrep 
+      R$prob[i+1] <- sum(R$values[i+1] < Rep[i+1,]) / nreps 
       
       R$Eig[[i+1]] <- matrix(apply(X = Rep,
                                    MARGIN = 1,
@@ -108,16 +122,14 @@ nest <- function(data, n = NULL, nrep = 1000, alpha = .05, max.fact = ncol(data)
       test.eig <- as.logical((R$Eig[[i+1]][,i+1] <= R$values[i+1]) * test.eig)
       nfactors <- nfactors + test.eig
     }
-    
-    
   }
   
-  return(structure(c(list(nfactors = nfactors), R, list(stopping.rule = "Nest Eigenvalue Sufficiency Test (NEST)")), class = "nest"))
+  return(structure(c(list(nfactors = nfactors), R, list(stopping.rule = "Next Eigenvalue Sufficiency Test (NEST)")), class = "nest"))
   
 }
 
 # prepare.nest ####
-prepare.nest <- function(data, n = NULL, na.action = "fiml"){
+prepare.nest <- function(data, n = NULL, na.action = "fiml", ...){
   
   data <- as.matrix(data)
   out <- list()
@@ -131,7 +143,7 @@ prepare.nest <- function(data, n = NULL, na.action = "fiml"){
     }
     
     if(is.null(n)){
-      stop("argument \"n\" is missing with covariance matrix")
+      stop("Argument \"n\" is missing with covariance matrix.")
     } else {
       out$n <- n
     }
@@ -139,7 +151,7 @@ prepare.nest <- function(data, n = NULL, na.action = "fiml"){
     if(anyNA(data)){
       # to opt
       if(na.action == "fiml") {
-        out$cor <- psych::corFiml(x = data)
+        out$cor <- cor_nest(.data = data)$covmat
       } else if (na.action == "na.omit"){
         out$cor <- cor(na.omit(data))
       } else {

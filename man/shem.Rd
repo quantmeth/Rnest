@@ -7,9 +7,9 @@
 shem(data, nIts = 30)
 }
 \arguments{
-\item{data}{A data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.}
+\item{data}{a data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.}
 
-\item{nIts}{Number of iterations.}
+\item{nIts}{number of iterations.}
 }
 \value{
 \code{shem} returns a list containing the number of components, \code{nfactors}, whether the additional step in case of zero true latent components was carried, \code{zeroComponents}, the \code{eigenvalues} and the \code{eigenvectors} of the solution.

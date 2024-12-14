@@ -2,51 +2,67 @@
 #'
 #' @param data data.frame.
 #' @param n number of subjects.
-#' @param p number of variables.
-#' @param nrep number of replications.
+#' @param nv number of variables.
+#' @param nreps number of replications.
 #' @param alpha type I error rate.
-#' @param crit Critical values to compare the eigenvalues.
-#' @param ... Other arguments
+#' @param crit critical values to compare the eigenvalues.
+#' @param ... other arguments
 #'
+#' @aliases PA
+#' 
+#' @references 
+#' Horn, J. L. (1965). A rationale and test for the number of factors in factor analysis. \emph{Psychometrika}, \emph{30}(2), 179–185. \doi{10.1007/BF02289447}
+#' 
 #' @return nfactors (if data is supplied) and sampled eigenvalues
 #' @export
 #'
 #' @examples
 #' pa(ex_2factors, n = 42)
-#' E <- pa(n = 10, p = 2, nrep = 5)
-pa <- function(data = NULL, n = NULL, p = NULL, nrep = 1000, alpha = .05, crit = NULL, ...){
+#' E <- pa(n = 10, nv = 2, nreps = 5)
+pa <- function(data = NULL, n = NULL, nv = NULL, nreps = 1000, alpha = .05, crit = NULL, ...){
   
   eig <- NULL
+ # cl <- "stoppingrules"
   
   if(inherits(data, "nest")){
     crit <- data$Eig[[1]]
-    alpha <- data$alpha
+    #alpha <- data$alpha
     eig <- data$values
     data <- NULL
+    #cl <- "nest"
   }
   
-  nf <- .nf(alpha)
+  #nf <- .nf(alpha)
   
   if(!is.null(data)){
-    R <- prepare.nest(data, n = n)
+    if(!(is.matrix(data) || is.data.frame(data) || is.array(data))){
+      ls <- data
+      if(!is.null(ls$n)) n <- ls$n
+      if(!is.null(ls$covmat)) {data <- ls$covmat
+      } else {
+        data <- ls$.data
+      }
+    }
+    
+    R <- prepare.nest(data, n = n, ...)
     eig <- R$values
     n <- R$n
-    p <- length(eig)
+    nv <- length(eig)
     #nfactors = nf$nfactors
   }
   
   if(is.null(crit)){
     
-    E <- replicate(nrep,
-                   eigen(cor(matrix(rnorm(n * p),
-                                    ncol = p,
+    E <- replicate(nreps,
+                   eigen(cor(matrix(rnorm(n * nv),
+                                    ncol = nv,
                                     nrow = n)), 
                          only.values = TRUE)$values)
     
     crit <- apply(E, 
                   MARGIN = 1, 
                   FUN = quantile, 
-                  probs = (1-nf$alpha))
+                  probs = (1-alpha))
   } else {
     
     E <- NULL
@@ -56,8 +72,8 @@ pa <- function(data = NULL, n = NULL, p = NULL, nrep = 1000, alpha = .05, crit =
   
   if(!is.null(eig)){
     
-    crit <- matrix(crit, nrow = length(alpha)); rownames(crit) <- nf$CI
-    nf$nfactors[] <- apply(crit, MARGIN = 1, function(crit) {max(c(0, which(eig >= crit)))})
+    crit <- matrix(crit, nrow = length(alpha))#; rownames(crit) <- nf$CI
+    nfactors <- apply(crit, MARGIN = 1, function(crit) {max(c(0, which(eig >= crit)))})
     
   } else {
     
@@ -65,11 +81,13 @@ pa <- function(data = NULL, n = NULL, p = NULL, nrep = 1000, alpha = .05, crit =
     
   }
   
-  return(structure(list(nfactors = nf$nfactors,
+  return(structure(list(nfactors = nfactors,
                         values = eig,
-                        Eig = list(crit),
-                        sample.eig = E,
-                        alpha = nf$alpha,
-                        stopping.rule = "Parallel Analysis"), class = "nest"))
-  
+                        Eig = crit,
+                        #sample.eig = E,
+                        alpha = alpha,
+                        stopping.rule = "Parallel Analysis"), class =  "stoppingrules"))
 }
+
+#' @export
+PA <- pa

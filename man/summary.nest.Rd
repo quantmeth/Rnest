@@ -7,9 +7,9 @@
 \method{summary}{nest}(object, ...)
 }
 \arguments{
-\item{object}{An object of class "nest".}
+\item{object}{an object of class "nest".}
 
-\item{...}{Further arguments for other methods, ignored for "nest".}
+\item{...}{further arguments for other methods, ignored for "nest".}
 }
 \value{
 No returned value, called for side effects.

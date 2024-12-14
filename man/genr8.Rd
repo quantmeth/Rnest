@@ -2,7 +2,7 @@
 % Please edit documentation in R/genr8.R
 \name{genr8}
 \alias{genr8}
-\title{Simplify the the generation from a Multivariate Normal Distributions}
+\title{Simplify the the generation from a multivariate normal distributions.}
 \usage{
 genr8(n = 1, R = diag(10), mean = rep(0, ncol(R)), ...)
 }
@@ -13,13 +13,13 @@ genr8(n = 1, R = diag(10), mean = rep(0, ncol(R)), ...)
 
 \item{mean}{an optinal vector giving the means of the variables. Default is 0.}
 
-\item{...}{Arguments for \code{MASS::mvrnorm()}, such as \code{tol}, \code{empirical}, and \code{EISPACK}.}
+\item{...}{arguments for \code{MASS::mvrnorm()}, such as \code{tol}, \code{empirical}, and \code{EISPACK}.}
 }
 \value{
 A data frame of size n by ncol(R).
 }
 \description{
-Speeds up the use of MASS::mvrnorm
+Speed up the use of \code{MASS::mvrnorm}
 }
 \examples{
 set.seed(19)

@@ -3,9 +3,9 @@
 \docType{data}
 \name{caron2016}
 \alias{caron2016}
-\title{A list of six correlation matrice composed of nine variables with three factors.}
+\title{A list of six correlation matrices composed of nine variables with three factors and different levels of correlations between factors.}
 \format{
-A list of six 9 x 9 correlation matrices found in Caron (2016).
+A list of six 9 x 9 correlation matrices.
 }
 \source{
 \url{https://github.com/quantmeth}
@@ -14,6 +14,9 @@ A list of six 9 x 9 correlation matrices found in Caron (2016).
 caron2016
 }
 \description{
-See Caron, P.-O. (2016). A Monte Carlo examination of the broken-stick distribution to identify components to retain in principal component analysis. \emph{Journal of Statistical Computation and Simulation}, \emph{86}(12), 2405-2410. \doi{10.1080/00949655.2015.1112390}
+A list of six correlation matrices composed of nine variables with three factors and different levels of correlations between factors.
+}
+\references{
+Caron, P.-O. (2016). A Monte Carlo examination of the broken-stick distribution to identify components to retain in principal component analysis. \emph{Journal of Statistical Computation and Simulation}, \emph{86}(12), 2405-2410. \doi{10.1080/00949655.2015.1112390}
 }
 \keyword{datasets}

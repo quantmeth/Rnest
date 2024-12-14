@@ -2,35 +2,36 @@
 % Please edit documentation in R/nest.R
 \name{nest}
 \alias{nest}
-\title{Nest Eigenvalue Sufficiency Test (NEST)}
+\alias{NEST}
+\title{Next Eigenvalue Sufficiency Test (NEST)}
 \usage{
 nest(
-  data,
+  .data,
+  ...,
   n = NULL,
-  nrep = 1000,
+  nreps = 1000,
   alpha = 0.05,
-  max.fact = ncol(data),
+  max.fact = TRUE,
   method = "ml",
-  na.action = "fiml",
-  ...
+  na.action = "fiml"
 )
 }
 \arguments{
-\item{data}{A data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.}
+\item{.data}{a data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.}
 
-\item{n}{The number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{data}.}
+\item{...}{arguments for \code{method} that can be supplied. See details.}
 
-\item{nrep}{The number of replications to simulate. Default is 1000.}
+\item{n}{the number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{.data}.}
 
-\item{alpha}{A vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.}
+\item{nreps}{the number of replications to simulate. Default is 1000.}
 
-\item{max.fact}{An optional maximum number of factor to extract. Default is \code{max.fact = ncol(data)}.}
+\item{alpha}{a vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.}
 
-\item{method}{A method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.}
+\item{max.fact}{an optional maximum number of factor to extract. Default is \code{TRUE}, so maximum number possible.}
 
-\item{na.action}{How should missing data be removed. \code{"na.omit"} removes complete rows with at least one single missing data. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are "everything", "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs". Default is "fiml.}
+\item{method}{a method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.}
 
-\item{...}{Arguments for \code{method} that can be supplied. See details.}
+\item{na.action}{how should missing data be removed. \code{"na.omit"} removes complete rows with at least one single missing data. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are "everything", "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs". Default is "fiml".}
 }
 \value{
 \code{nest} returns an object of class \code{nest}. The functions \code{summary} and \code{plot} are used to obtain and show a summary of the results.
@@ -44,7 +45,7 @@ An object of class \code{nest} is a list containing the following components:
   \item \code{values} - The eigenvalues of the supplied correlation matrix.
   \item \code{alpha} - The type I error rate.
   \item \code{method} - The method used to compute loadings and uniquenesses.
-  \item \code{nrep} - The number of replications used.
+  \item \code{nreps} - The number of replications used.
   \item \code{prob} - Probabilities of each factor.
   \item \code{Eig} - A list of simulated eigenvalues.
 }
@@ -65,6 +66,8 @@ There is two \code{method} already implemented in \code{nest} to extract loading
 \code{plot.nest} Scree plot of the eigenvalues and the simulated confidence intervals for \code{alpha}.
 
 \code{loadings} Extract loadings. It does not overwrite \code{stat::loadings}.
+
+\code{summary.nest} Summary statistics for the number of factors.
 }
 
 \examples{

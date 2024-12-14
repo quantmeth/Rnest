@@ -1,10 +1,10 @@
-#' Plot results of NEST
+#' Plot results of Next Eigenvalues Sufficiency Test (NEST)
 #'
 #' @description Scree plot of the eigenvalues and the \code{(1-alpha)*100\%} confidence intervals derived from the resampled eigenvalues supplied to \code{nest}.
 #' 
-#' @param x An object of class "nest".
-#' @param pa Show results of Parallel Analysis.
-#' @param ... Further arguments for other methods, ignored for "nest".
+#' @param x an object of class "nest".
+#' @param pa show results of Parallel Analysis.
+#' @param ... further arguments for other methods, ignored for "nest".
 #' 
 #' @return A ggplot output.
 #' 
@@ -35,21 +35,8 @@ plot.nest <- function(x, pa = FALSE, ...){
                                                                                   seq(0, .5, length.out = length(x$alpha)), 
                                                                                   seq(0, .5, length.out = length(x$alpha))))[length(x$alpha):1])
   }
-  
-  # ggplot2::ggplot(df,
-  #                 mapping = aes(x = df$Position,
-  #                               y = df$Eigenvalues,
-  #                               color = df$Confidence)) +
-  #   geom_line(linetype = "dashed") +
-  #   geom_point() +
-  #   scale_color_manual(values = col.pal) +
-  #   scale_x_continuous(breaks = scales::pretty_breaks())+
-  #   scale_y_continuous(breaks = scales::pretty_breaks()) +
-  #   labs(title = paste(x$stopping.rule)) +
-  #   theme(legend.position = c(.8, .8))
-  
-  
-  a <- ggplot2::ggplot(data = df,
+
+  out <- ggplot2::ggplot(data = df,
                        mapping = aes(x = .data$Position,
                                      y = .data$Eigenvalues,
                                      color = .data$Confidence)) +
@@ -61,9 +48,9 @@ plot.nest <- function(x, pa = FALSE, ...){
     labs(title = paste(x$stopping.rule)) +
     theme(legend.position = c(.8, .8))
   
-  a$data <- df
+  out$data <- df
   
-  a
+  out
 }
 
 
@@ -87,19 +74,16 @@ data2plot <- function(x, pa = FALSE){
                                  Eigenvalues = x$Eig[[i]][,i],
                                  Confidence = paste0((1 - sort(x$alpha)) * 100,"%")))
     }
-    
   }
   
   if(pa == TRUE){
-    
     df <- rbind(df, data.frame(Position = rep(1:nv, length(x$alpha)),
                                Eigenvalues = c(t(x$Eig[[1]])),
                                Confidence = rep(paste0("PA ", (1 - sort(x$alpha)) * 100,"%"), each = nv)))
   }
   
-  
   rownames(df) <- NULL
-  
+
   return(df)
 }
 

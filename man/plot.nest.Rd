@@ -2,16 +2,16 @@
 % Please edit documentation in R/plot.nest.R
 \name{plot.nest}
 \alias{plot.nest}
-\title{Plot results of NEST}
+\title{Plot results of Next Eigenvalues Sufficiency Test (NEST)}
 \usage{
 \method{plot}{nest}(x, pa = FALSE, ...)
 }
 \arguments{
-\item{x}{An object of class "nest".}
+\item{x}{an object of class "nest".}
 
-\item{pa}{Show results of Parallel Analysis.}
+\item{pa}{show results of Parallel Analysis.}
 
-\item{...}{Further arguments for other methods, ignored for "nest".}
+\item{...}{further arguments for other methods, ignored for "nest".}
 }
 \value{
 A ggplot output.

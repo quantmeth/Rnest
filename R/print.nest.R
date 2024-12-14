@@ -1,8 +1,8 @@
 #' Print results of NEST
 #'
 #' @description Print the number of factors to retain according to confidence levels.
-#' @param x An object of class "nest".
-#' @param ... Further arguments for other methods, ignored for "nest".
+#' @param x an object of class "nest".
+#' @param ... further arguments for other methods, ignored for "nest".
 #'
 #' @importFrom crayon blue
 #' @importFrom utils packageVersion
@@ -23,4 +23,7 @@ print.nest <- function(x, ...){
 # .s ####
 .s <- function(x, w = NULL){
   paste0(w, c("s")[x>1])
+}
+.ve <- function(x, w = NULL){
+  ifelse(x>1,"have", "has")
 }

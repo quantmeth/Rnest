@@ -1,0 +1,13 @@
+#' A correlation matrix composed of six factors.
+#'
+#' A correlation matrix composed of 18 items based on six factors. Four have more than 
+#' three variables, three variables have crossloadings (items 6, 7 and 13), two are 
+#' doublets factors (items 13-14, 15-16), and there is two unique variables (17 and 18).
+#' Loadings range between .40 and .80.
+#'
+#' @references 
+#' Achim, A. (2024, April 4). \emph{Signal cancellation factor analysis}. PsyArXiv, 1–13. \doi{10.31234/osf.io/h7qwg}
+#' 
+#' @format A 18 by 18 correlation matrix.
+#' @source \url{https://github.com/quantmeth}
+"achim24"

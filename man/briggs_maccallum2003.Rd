@@ -3,9 +3,9 @@
 \docType{data}
 \name{briggs_maccallum2003}
 \alias{briggs_maccallum2003}
-\title{A list of three correlation matrice.}
+\title{A list of three correlation matrices.}
 \format{
-A a list of three correlation matrices found in Briggs & MacCullum (2003).
+A a list of three correlation matrices.
 }
 \source{
 \url{https://github.com/quantmeth}
@@ -14,6 +14,9 @@ A a list of three correlation matrices found in Briggs & MacCullum (2003).
 briggs_maccallum2003
 }
 \description{
-See Briggs, N. E., & MacCallum, R. C. (2003). Recovery of weak common factors by Maximum likelihood and ordinary least squares estimation. \emph{Multivariate Nehavioral Research}, \emph{38}(1), 25–56. \doi{10.1207/S15327906MBR3801_2}
+A list of three correlation matrices.
+}
+\references{
+Briggs, N. E., & MacCallum, R. C. (2003). Recovery of weak common factors by Maximum likelihood and ordinary least squares estimation. \emph{Multivariate Nehavioral Research}, \emph{38}(1), 25–56. \doi{10.1207/S15327906MBR3801_2}
 }
 \keyword{datasets}

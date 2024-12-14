@@ -1,8 +1,8 @@
 #' Summary results of NEST
 #'
 #' @description summary method for class "nest".
-#' @param object An object of class "nest".
-#' @param ... Further arguments for other methods, ignored for "nest".
+#' @param object an object of class "nest".
+#' @param ... further arguments for other methods, ignored for "nest".
 #'
 #' @return No returned value, called for side effects.
 #'

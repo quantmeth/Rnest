@@ -3,9 +3,9 @@
 \docType{data}
 \name{meek_bouchard}
 \alias{meek_bouchard}
-\title{A correlation matrix given by Meek-Bouchard.}
+\title{A correlation matrix from Meek-Bouchard.}
 \format{
-A 44 by 44 correlation matrix
+A 44 by 44 correlation matrix.
 }
 \source{
 \url{https://github.com/quantmeth}
@@ -14,6 +14,9 @@ A 44 by 44 correlation matrix
 meek_bouchard
 }
 \description{
-A sample correlation matrix composed of 44 items given by Meek-Bouchard, C. (personal communication).
+A sample correlation matrix composed of 44 items.
+}
+\references{
+Meek-Bouchard, C. (personal communication).
 }
 \keyword{datasets}

@@ -1,7 +1,8 @@
 #' A list of seven correlation matrices.
 #'
-#' A a list of seven correlation matrices. Given by Achim, A (personal communication).
+#' @references 
+#' Achim, A. (personal communication).
 #'
-#' @format A 12 by 12 correlation matrix
+#' @format A list of correlation matrices.
 #' @source \url{https://github.com/quantmeth}
 "achim"
