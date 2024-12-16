@@ -20,11 +20,17 @@
 #' cov_nest(airquality)
 cov_nest <- function(.data, ..., cluster = NULL, missing = "fiml", pvalue = FALSE){
   
-  nv <- combn(colnames(.data),2)
+  .data <- as.data.frame(.data)
+  nom <- colnames(.data)
+  colnames(.data) <- nv <- paste0("v",1:ncol(.data))
+  nv <- combn(nv,2)
+  
   mod <- paste0(paste0(nv[1,],"~~",nv[2,]), collapse = "\n")
   fit <- lavaan::sem(mod, .data, missing = missing, cluster = cluster, warn = FALSE, ...)
   S <- lavaan::lavInspect(fit, c("cov.ov"))[]
   n <- lavaan::lavInspect(fit, c("nobs"))
+  
+  colnames(S) <- row.names(S) <- nom
   
   out <- list(covmat = S,
        n = n)

@@ -129,7 +129,7 @@ ex_3factors_doub_unique %>%
   cor_nest() %>%  
   remove_unique() %>%       
   nest() %>% 
-  plot()
+  plot(pa = TRUE)
 ```
 
 # How to cite
