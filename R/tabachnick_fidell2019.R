@@ -5,7 +5,7 @@
 #' The last variable \code{CODING} is unique. Loadings range between .39 and .76.
 #'
 #' @references 
-#' Tabachnick, B. G., & Fidell, L. S. (2019). \emph{Using multivariate statistics}. Allyn and Bacon. p. 576-578.
+#' Tabachnick, B. G., & Fidell, L. S. (2019). \emph{Using multivariate statistics}. Allyn and Bacon. p. 576-577.
 #'
 #' @format A 11 by 11 covariance matrix.
 #' @source \url{https://github.com/quantmeth}

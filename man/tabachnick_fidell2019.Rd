@@ -19,6 +19,6 @@ The first five variables are related to "Verbak IQ", the next five are related t
 The last variable \code{CODING} is unique. Loadings range between .39 and .76.
 }
 \references{
-Tabachnick, B. G., & Fidell, L. S. (2019). \emph{Using multivariate statistics}. Allyn and Bacon. p. 576-578.
+Tabachnick, B. G., & Fidell, L. S. (2019). \emph{Using multivariate statistics}. Allyn and Bacon. p. 576-577.
 }
 \keyword{datasets}
