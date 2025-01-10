@@ -1,13 +1,13 @@
 #' Simplify the the generation from a multivariate normal distributions.
 #'
-#' @description Speed up the use of \code{MASS::mvrnorm}
+#' @description Speed up the use of \code{MASS::mvrnorm}.
 #'
 #' @param n the number of samples required.
 #' @param R a positive-definite symmetric matrix specifying the covariance matrix of the variables.
 #' @param mean an optinal vector giving the means of the variables. Default is 0.
 #' @param ... arguments for \code{MASS::mvrnorm()}, such as \code{tol}, \code{empirical}, and \code{EISPACK}.
 #'
-#' @return A data frame of size n by ncol(R).
+#' @return A data frame of size \code{n} by \code{ncol(R)}.
 #' @import MASS
 #' @export
 #'

@@ -16,13 +16,13 @@ pa(
 )
 }
 \arguments{
-\item{data}{data.frame.}
+\item{data}{a data.frame.}
 
-\item{n}{number of subjects.}
+\item{n}{the number of subjects.}
 
-\item{nv}{number of variables.}
+\item{nv}{the number of variables.}
 
-\item{nreps}{number of replications.}
+\item{nreps}{the number of replications.}
 
 \item{alpha}{type I error rate.}
 
@@ -38,7 +38,7 @@ Parallel analysis
 }
 \examples{
 pa(ex_2factors, n = 42)
-E <- pa(n = 10, nv = 2, nreps = 5)
+pa(n = 10, nv = 2, nreps = 100)
 }
 \references{
 Horn, J. L. (1965). A rationale and test for the number of factors in factor analysis. \emph{Psychometrika}, \emph{30}(2), 179–185. \doi{10.1007/BF02289447}

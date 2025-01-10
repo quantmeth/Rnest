@@ -2,10 +2,11 @@
 #'
 #' @description Returns the maximum number of latent factors in a factor analysis model.
 #'
-#' @param p The number of variable.
+#' @param p The number of variables.
 #'
 #' @author 
 #' André Achim (Matlab)
+#' 
 #' P.-O. Caron (R)
 #' 
 #' @references 

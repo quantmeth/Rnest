@@ -7,6 +7,7 @@
 #'
 #' @author 
 #' André Achim (Matlab)
+#' 
 #' P.-O. Caron (R)
 #'
 #' @references

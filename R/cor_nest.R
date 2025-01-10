@@ -22,8 +22,10 @@ cov_nest <- function(.data, ..., cluster = NULL, missing = "fiml", pvalue = FALS
   
   .data <- as.data.frame(.data)
   nom <- colnames(.data)
-  colnames(.data) <- nv <- paste0("v",1:ncol(.data))
-  nv <- combn(nv,2)
+  if(is.null(nom)) colnames(.data) <- nom <- paste0("v",1:ncol(.data))
+  nom <- nom[!(nom %in% cluster)]
+  #colnames(.data) <- nv <- paste0("v",1:ncol(.data))
+  nv <- combn(nom,2)
   
   mod <- paste0(paste0(nv[1,],"~~",nv[2,]), collapse = "\n")
   fit <- lavaan::sem(mod, .data, missing = missing, cluster = cluster, warn = FALSE, ...)

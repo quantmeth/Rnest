@@ -25,5 +25,6 @@ Bartlett, M. S. (1937). Properties of sufficiency and statistical tests. \emph{P
 }
 \author{
 André Achim (Matlab)
+
 P.-O. Caron (R)
 }

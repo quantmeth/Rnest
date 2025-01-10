@@ -1,9 +1,9 @@
 #' Parallel analysis
 #'
-#' @param data data.frame.
-#' @param n number of subjects.
-#' @param nv number of variables.
-#' @param nreps number of replications.
+#' @param data a data.frame.
+#' @param n the number of subjects.
+#' @param nv the number of variables.
+#' @param nreps the number of replications.
 #' @param alpha type I error rate.
 #' @param crit critical values to compare the eigenvalues.
 #' @param ... other arguments
@@ -18,7 +18,7 @@
 #'
 #' @examples
 #' pa(ex_2factors, n = 42)
-#' E <- pa(n = 10, nv = 2, nreps = 5)
+#' pa(n = 10, nv = 2, nreps = 100)
 pa <- function(data = NULL, n = NULL, nv = NULL, nreps = 1000, alpha = .05, crit = NULL, ...){
   
   eig <- NULL

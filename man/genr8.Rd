@@ -16,10 +16,10 @@ genr8(n = 1, R = diag(10), mean = rep(0, ncol(R)), ...)
 \item{...}{arguments for \code{MASS::mvrnorm()}, such as \code{tol}, \code{empirical}, and \code{EISPACK}.}
 }
 \value{
-A data frame of size n by ncol(R).
+A data frame of size \code{n} by \code{ncol(R)}.
 }
 \description{
-Speed up the use of \code{MASS::mvrnorm}
+Speed up the use of \code{MASS::mvrnorm}.
 }
 \examples{
 set.seed(19)

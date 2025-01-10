@@ -7,7 +7,7 @@
 Ledermann(p)
 }
 \arguments{
-\item{p}{The number of variable.}
+\item{p}{The number of variables.}
 }
 \value{
 The Ledermann bound.
@@ -23,5 +23,6 @@ Ledermann, W. (1937). On the rank of reduced correlation matrices in multiple fa
 }
 \author{
 André Achim (Matlab)
+
 P.-O. Caron (R)
 }

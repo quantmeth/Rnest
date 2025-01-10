@@ -2,7 +2,7 @@
 #'
 #' @param .data a data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.
 #' @param n the number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{.data}.
-#' @param ... further arguments for \code{cor_nest()}.
+#' @param ... further arguments for \code{cov_nest()}.
 #' 
 #' @return A data frame containing the F-values and probabilities of the variable to be an unique variable. 
 #' @export

@@ -11,7 +11,7 @@ unique_variable(.data, n = NULL, ...)
 
 \item{n}{the number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{.data}.}
 
-\item{...}{further arguments for \code{cor_nest()}.}
+\item{...}{further arguments for \code{cov_nest()}.}
 }
 \value{
 A data frame containing the F-values and probabilities of the variable to be an unique variable.
