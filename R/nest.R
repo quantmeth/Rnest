@@ -73,6 +73,7 @@ nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = TRU
   
   R$alpha <- alpha
   R$method <- method
+  R$na.action <- na.action 
   R$nreps <- nreps
   R$Eig <- list()
   R$prob <- numeric()

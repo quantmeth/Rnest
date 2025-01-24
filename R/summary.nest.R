@@ -16,6 +16,7 @@ summary.nest <- function(object, ...){
   cat("\n")
   cat("nest",  paste0(unlist(packageVersion("Rnest")), collapse = "."),"ended normally \n \n")
   cat("   Estimator                      ", toupper(object$method),"\n")
+  cat("   Missing data treatment         ", toupper(object$na.action),"\n")
   cat("   Number of model parameters     ", (ncol(object$cor))*(ncol(object$cor)-1)/2, "\n")
   cat("   Resampling                     ", object$nrep,"\n")
   cat("   Sample size                    ", object$n, "\n")

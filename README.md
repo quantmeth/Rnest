@@ -6,7 +6,7 @@ The library `Rnest` offers the Next Eigenvalue Sufficiency Tests (NEST)
 factor analysis. It provides a main function `nest()` to carry the
 analysis and a `plot()` function. It has been showed to amongst the best
 stopping rule to determine the nuber of factor in factor analysis
-(Achim, 2021; Brandenburg & Papenberg, 2024; Caron, accepté).
+(Achim, 2021; Brandenburg & Papenberg, 2024; Caron, 2025).
 
 There is many examples of correlation matrices available with the
 packages and other stopping rules as well, such as `pa()` for parallel
@@ -87,6 +87,7 @@ summary(res)
     ## nest 1.0 ended normally 
     ##  
     ##    Estimator                       ML 
+    ##    Missing data treatment          FIML 
     ##    Number of model parameters      66 
     ##    Resampling                      1000 
     ##    Sample size                     2500 
@@ -97,9 +98,9 @@ summary(res)
     ##   Factor     Eigenvalue     Prob 
     ##     F1         3.228       < .001 
     ##     F2         3.167       < .001 
-    ##     F3         1.007         .009 
+    ##     F3         1.007         .010 
     ##     F4         0.972         .009 
-    ##     F5         0.860         .735 
+    ##     F5         0.860         .727 
     ## 
     ##  
     ## At 95% confidence, Next Eigenvalue Sufficiency Test (NEST) suggests 4 factors. 
@@ -171,7 +172,7 @@ ex_3factors_doub_unique %>%
   cor_nest() %>%  
   remove_unique() %>%       
   nest() %>% 
-  plot()
+  plot(pa = TRUE)
 ```
 
 <img src="README_files/figure-gfm/unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
@@ -184,7 +185,7 @@ Sufficiency Test*. <https://github.com/quantmeth/Rnest>
 # References
 
 <div id="refs" class="references csl-bib-body hanging-indent"
-line-spacing="2">
+entry-spacing="0" line-spacing="2">
 
 <div id="ref-Achim17" class="csl-entry">
 
@@ -223,7 +224,7 @@ test. *Psychological Methods*, *29*(1), 21–47.
 
 <div id="ref-Caron25" class="csl-entry">
 
-Caron, P.-O. (accepté). A comparison of the next eigenvalue sufficiency
+Caron, P.-O. (2025). A comparison of the next eigenvalue sufficiency
 test to other stopping rules for the number of factors in factor
 analysis. *Educational and Psychological Measurement*.
 <https://doi.org/10.1177/00131644241308528>
