@@ -135,7 +135,7 @@ prepare.nest <- function(data, n = NULL, na.action = "fiml", ...){
   data <- as.matrix(data)
   out <- list()
   
-  if(isSymmetric.matrix(data)){
+  if(isSymmetric(data, check.attributes=FALSE) ){
     
     if(all(diag(data) == 1)){
       out$cor <- data
