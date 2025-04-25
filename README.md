@@ -1,15 +1,16 @@
 
 # Rnest: An R package for the Next Eigenvalue Sufficiency Test
 
-The library `Rnest` offers the Next Eigenvalue Sufficiency Tests (NEST)
-(Achim, 2017, 2020) to determine the number of dimensions in exploratory
+The library `Rnest` offers the Next Eigenvalue Sufficiency Tests (NEST;
+Achim, 2017; 2020) to determine the number of dimensions in exploratory
 factor analysis. It provides a main function `nest()` to carry the
-analysis and a `plot()` function. It has been showed to amongst the best
-stopping rule to determine the nuber of factor in factor analysis
-(Achim, 2021; Brandenburg & Papenberg, 2024; Caron, 2025).
+analysis, a `plot()` function a many utilit. It has been showed to
+amongst the best stopping rule to determine the nuber of factor in
+factor analysis (Achim, 2021; Brandenburg & Papenberg, 2024; Caron,
+2025).
 
 There is many examples of correlation matrices available with the
-packages and other stopping rules as well, such as `pa()` for parallel
+packages and other stopping rules as well, such as `PA()` for parallel
 analysis or `MAP()` for minimum average partial correlation.
 
 As of version `1.0`, `Rnest` is compatible with the `tidyverse` and the
@@ -74,7 +75,7 @@ res <- nest(mydata)
 res
 ```
 
-    ## At 95% confidence, Next Eigenvalue Sufficiency Test (NEST) suggests 4 factors.
+    ## Next Eigenvalue Sufficiency Test (NEST) suggests 4 factors.
 
 The first output tells hom many factors NEST suggests. We can also
 consult the summary with
@@ -84,7 +85,7 @@ summary(res)
 ```
 
     ## 
-    ## nest 1.0 ended normally 
+    ## nest 1.0 ended normally  
     ##  
     ##    Estimator                       ML 
     ##    Missing data treatment          FIML 
@@ -94,16 +95,18 @@ summary(res)
     ##    Stopped at                      5 
     ##  
     ##  
-    ## Probabilities of factors 
-    ##   Factor     Eigenvalue     Prob 
-    ##     F1         3.228       < .001 
-    ##     F2         3.167       < .001 
-    ##     F3         1.007         .010 
-    ##     F4         0.972         .009 
-    ##     F5         0.860         .727 
+    ## Test that k factors are sufficient 
+    ## 
+    ##  k factor NextEig CritEig    Prob
+    ##     k = 0   3.228   1.155  < .001
+    ##     k = 1   3.167   1.113  < .001
+    ##     k = 2   1.007   0.993    .010
+    ##     k = 3   0.972   0.958    .009
+    ##     k = 4   0.860   0.903    .727
     ## 
     ##  
-    ## At 95% confidence, Next Eigenvalue Sufficiency Test (NEST) suggests 4 factors. 
+    ## Next Eigenvalue Sufficiency Test (NEST) suggests 4 factors. 
+    ## 
     ## Try plot(nest()) to see a graphical representation of the results. 
     ## 
 
@@ -137,7 +140,7 @@ It is also possible to use a correlation matrix directly. A sample size,
 nest(ex_4factors_corr, n = 240)
 ```
 
-    ## At 95% confidence, Next Eigenvalue Sufficiency Test (NEST) suggests 2 factors.
+    ## Next Eigenvalue Sufficiency Test (NEST) suggests 2 factors.
 
 The `nest()` function can use with many $\alpha$ values and presents
 parallel analysis results if desired.

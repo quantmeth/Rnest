@@ -5,9 +5,9 @@
 \alias{cor_nest}
 \title{Compute covariance or correlation matrix with treatments for clusters and missing values}
 \usage{
-cor_nest(.data, ..., cluster = NULL, missing = "fiml", pvalue = FALSE)
+cor_nest(.data, ..., cluster = NULL, missing = "fiml", ordered = FALSE, pvalue = FALSE)
 
-cov_nest(.data, ..., cluster = NULL, missing = "fiml", pvalue = FALSE)
+cov_nest(.data, ..., cluster = NULL, missing = "fiml", ordered = FALSE, pvalue = FALSE)
 }
 \arguments{
 \item{.data}{a data frame, a numeric matrix.}
@@ -18,6 +18,8 @@ cov_nest(.data, ..., cluster = NULL, missing = "fiml", pvalue = FALSE)
 
 \item{missing}{treatment to deal with missing values. Options are \code{"listwise"} or \code{"pairwise"}. Default if \code{"fiml"}.}
 
+\item{ordered}{a character vector identifying which variables have an ordered (ordinal) scale. If \code{TRUE}, all observed endogenous variables are treated as ordered (ordinal). If \code{FALSE}, all observed endogenous variables are considered to be numeric}
+
 \item{pvalue}{an argument to indicate if \eqn{p}-values are required.}
 }
 \value{
@@ -26,6 +28,12 @@ A list of class "covnest"
 \description{
 Compute covariance or correlation matrix with treatments for clusters and missing values
 }
+\details{
+A quick adaptation of the lavaan package (Rosseel, 2012) to estimate a covariance or correlation matrix with missing values, hierachical strcutures and ordinal scales.
+}
 \examples{
 cov_nest(airquality)
+}
+\references{
+Rosseel, Y. (2012). lavaan: An R package for structural equation modeling. \emph{Journal of Statistical Software}, \emph{48}(2), 1–36. \url{https://www.jstatsoft.org/v48/i02/}
 }

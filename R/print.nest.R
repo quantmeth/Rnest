@@ -14,9 +14,15 @@
 #' results <- nest(ex_2factors, n = 100)
 #' print(results)
 print.nest <- function(x, ...){
+  
   for(i in 1:length(x$alpha)){
-    al <- paste0("At ",rownames(x$nfactors)[i]," confidence", sep = "")
-    cat(al, ", ", x$stopping.rule, " suggests ", crayon::blue(x$nfactors[i,], .s(x$nfactors[i,], "factor")), ". \n", sep = "")
+    #al <- paste0("At ",rownames(x$nfactors)[i]," confidence", sep = "")
+    #cat(al, ", ", x$stopping.rule, " suggests ", crayon::blue(x$nfactors[i,], .s(x$nfactors[i,], "factor")), ". \n", sep = "")
+    if(length(x$alpha) == 1) {al <- ""} 
+    else {
+      al <- paste0(" with alpha = ", x$alpha[i], sep = "")
+    }
+    cat(x$stopping.rule, " suggests ", crayon::blue(x$nfactors[i,], .s(x$nfactors[i,], "factor")),al, ". \n", sep = "")
   }
 }
 

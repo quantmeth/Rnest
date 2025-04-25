@@ -4,19 +4,21 @@
 #'
 #' @param .data a data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.
 #' @param n the number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{.data}.
-#' @param nreps the number of replications to simulate. Default is 1000.
+#' @param nreps the number of replications to derive the empirical probability distribution of each eigenvalue. Default is 1000.
 #' @param alpha a vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.
-#' @param max.fact an optional maximum number of factor to extract. Default is \code{TRUE}, so maximum number possible.
+#' @param max.fact an optional maximum number of factor to extract. Default is \code{NULL}, so the maximum number possible.
 #' @param method a method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.
 #' @param na.action how should missing data be removed. \code{"na.omit"} removes complete rows with at least one single missing data. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are \code{"everything"}, \code{"all.obs"}, \code{"complete.obs"}, \code{"na.or.complete"}, or \code{"pairwise.complete.obs"}. Default is \code{"fiml"}.
 #' @param ... arguments for \code{method} that can be supplied. See details.
 #'
 #' @details 
-#' The Next Eigenvalues Sufficiency Test (NEST) is an extension of parallel analysis by adding a sequential hypothesis testing procedure for every \eqn{k = 1, ..., p} factor until the hypothesis is not rejected. 
+#' The Next Eigenvalues Sufficiency Test (NEST) is an extension of parallel analysis by adding a sequential hypothesis testing procedure for every \eqn{k = 0, ..., \code{max.fact}} factor until the hypothesis is not rejected. 
 #' 
-#' At \eqn{k = 1}, NEST and parallel analysis are identical. Both use an Identity matrix as the correlation matrix. Once the first hypothesis is rejected, NEST uses a correlation matrix based on the loadings and uniquenesses of the \eqn{k^{th}} factorial structure. NEST then resamples the eigenvalues of this new correlation matrix. NEST stops when the \eqn{k^{th}} eigenvalues is within the confidence interval.  
+#' At \eqn{k = 0}, NEST and parallel analysis are identical. Both use an identity matrix as the correlation matrix. Once the first hypothesis is rejected, NEST uses a correlation matrix based on the loadings and uniquenesses of the \eqn{k^{th}} factorial structure. NEST then resamples \code{nreps} times the \eqn{k^{th}} eigenvalue of this new correlation matrix. NEST stops when the \eqn{k^{th}} eigenvalues is below the \eqn{1-\alpha}*100%} quantile threshold.  
 #' 
-#' There is four \code{method} already implemented in \code{nest} to extract loadings and uniquenesses: maximum likelihood (\code{"ml"}; default), principal axis factoring (\code{"paf"}), regularized common factor analysis \code{method = "rcfa"}, and minimum rank factor analysis (\code{"mrfa"}). The functions use as arguments: \code{covmat}, \code{n}, \code{factors}, and \code{...} (supplementary arguments passed by \code{nest}). They return \code{loadings} and \code{uniquenesses}. Any other user-defined functions can be used as long as it is programmed likewise.
+#' There is four \code{method} already implemented in \code{nest} to estimate loadings and uniquenesses: maximum likelihood (\code{"ml"}; default), principal axis factoring (\code{"paf"}), regularized common factor analysis \code{method = "rcfa"}, and minimum rank factor analysis (\code{"mrfa"}). These functions use as arguments: \code{covmat}, \code{n}, \code{factors}, and \code{...} (supplementary arguments passed by \code{nest}). They return \code{loadings} and \code{uniquenesses}. Any other user-defined functions can be used as long as it is programmed likewise.
+#'
+#' The \code{method = "paf"} is the same as Achim's (2017) NESTip.
 #'
 #' @return \code{nest()} returns an object of class \code{nest}. The functions \code{summary} and \code{plot} are used to obtain and show a summary of the results.
 #' 
@@ -58,7 +60,7 @@
 #' @examples
 #' nest(ex_2factors, n = 100)
 #' nest(mtcars)
-nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = TRUE, method = "ml", na.action = "fiml"){
+nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = NULL, method = "ml", na.action = "fiml"){
   
   if(!(is.matrix(.data) || is.data.frame(.data) || is.array(.data))){
     ls <- .data
@@ -69,7 +71,7 @@ nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = TRU
     }
   }
   
-  R <- prepare.nest(.data, n = n, na.action = na.action)
+  R <- prepare.nest(.data, n = n, na.action = na.action, ...)
   
   R$alpha <- alpha
   R$method <- method
@@ -83,8 +85,8 @@ nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = TRU
   nfactors <- nf$nfactors
   CI <- nf$CI
   R$alpha <- nf$alpha
-  
-  if(max.fact) max.fact <- .max.fact(ncol(R$cor))
+  R$convergence <- TRUE
+  if(is.null(max.fact)) max.fact <- .max.fact(ncol(R$cor))
   
   for (i in 0:max.fact){
     if(all(!test.eig)) {
@@ -99,11 +101,18 @@ nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = TRU
         
       } else {
         
-        M <- do.call(method[[1]],
-                     list(covmat = R$cor,
-                          n = R$n,
-                          factors = i))#, 
-        #...))
+        tryCatch({
+          M <- do.call(method[[1]],
+                       list(covmat = R$cor,
+                            n = R$n,
+                            factors = i,
+                            ...))
+        }, error = function(e){
+          R$convergence <- FALSE
+        })
+        
+        if(!R$convergence) break
+        
         M <- cbind(M$loadings, diag(sqrt(M$uniquenesses)))
         
       }
@@ -135,7 +144,7 @@ prepare.nest <- function(data, n = NULL, na.action = "fiml", ...){
   data <- as.matrix(data)
   out <- list()
   
-  if(isSymmetric(data, check.attributes=FALSE) ){
+  if(isSymmetric(data, check.attributes = FALSE) ){
     
     if(all(diag(data) == 1)){
       out$cor <- data
@@ -150,9 +159,10 @@ prepare.nest <- function(data, n = NULL, na.action = "fiml", ...){
     }
   } else {
     if(anyNA(data)){
+      # TODO
       # to opt
       if(na.action == "fiml") {
-        out$cor <- cor_nest(.data = data)$covmat
+        out$cor <- cor_nest(.data = data, ...)$covmat
       } else if (na.action == "na.omit"){
         out$cor <- cor(na.omit(data))
       } else {

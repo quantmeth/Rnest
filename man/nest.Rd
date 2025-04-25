@@ -11,7 +11,7 @@ nest(
   n = NULL,
   nreps = 1000,
   alpha = 0.05,
-  max.fact = TRUE,
+  max.fact = NULL,
   method = "ml",
   na.action = "fiml"
 )
@@ -23,11 +23,11 @@ nest(
 
 \item{n}{the number of cases (subjects, participants, or units) if a covariance matrix is supplied in \code{.data}.}
 
-\item{nreps}{the number of replications to simulate. Default is 1000.}
+\item{nreps}{the number of replications to derive the empirical probability distribution of each eigenvalue. Default is 1000.}
 
 \item{alpha}{a vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.}
 
-\item{max.fact}{an optional maximum number of factor to extract. Default is \code{TRUE}, so maximum number possible.}
+\item{max.fact}{an optional maximum number of factor to extract. Default is \code{NULL}, so the maximum number possible.}
 
 \item{method}{a method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.}
 
@@ -54,11 +54,13 @@ An object of class \code{nest} is a list containing the following components:
 \code{nest} is used to identify the number of factors to retain in exploratory factor analysis.
 }
 \details{
-The Next Eigenvalues Sufficiency Test (NEST) is an extension of parallel analysis by adding a sequential hypothesis testing procedure for every \eqn{k = 1, ..., p} factor until the hypothesis is not rejected. 
+The Next Eigenvalues Sufficiency Test (NEST) is an extension of parallel analysis by adding a sequential hypothesis testing procedure for every \eqn{k = 0, ..., \code{max.fact}} factor until the hypothesis is not rejected. 
 
-At \eqn{k = 1}, NEST and parallel analysis are identical. Both use an Identity matrix as the correlation matrix. Once the first hypothesis is rejected, NEST uses a correlation matrix based on the loadings and uniquenesses of the \eqn{k^{th}} factorial structure. NEST then resamples the eigenvalues of this new correlation matrix. NEST stops when the \eqn{k^{th}} eigenvalues is within the confidence interval.  
+At \eqn{k = 0}, NEST and parallel analysis are identical. Both use an identity matrix as the correlation matrix. Once the first hypothesis is rejected, NEST uses a correlation matrix based on the loadings and uniquenesses of the \eqn{k^{th}} factorial structure. NEST then resamples \code{nreps} times the \eqn{k^{th}} eigenvalue of this new correlation matrix. NEST stops when the \eqn{k^{th}} eigenvalues is below the \eqn{1-\alpha}*100%} quantile threshold.  
 
-There is four \code{method} already implemented in \code{nest} to extract loadings and uniquenesses: maximum likelihood (\code{"ml"}; default), principal axis factoring (\code{"paf"}), regularized common factor analysis \code{method = "rcfa"}, and minimum rank factor analysis (\code{"mrfa"}). The functions use as arguments: \code{covmat}, \code{n}, \code{factors}, and \code{...} (supplementary arguments passed by \code{nest}). They return \code{loadings} and \code{uniquenesses}. Any other user-defined functions can be used as long as it is programmed likewise.
+There is four \code{method} already implemented in \code{nest} to estimate loadings and uniquenesses: maximum likelihood (\code{"ml"}; default), principal axis factoring (\code{"paf"}), regularized common factor analysis \code{method = "rcfa"}, and minimum rank factor analysis (\code{"mrfa"}). These functions use as arguments: \code{covmat}, \code{n}, \code{factors}, and \code{...} (supplementary arguments passed by \code{nest}). They return \code{loadings} and \code{uniquenesses}. Any other user-defined functions can be used as long as it is programmed likewise.
+
+The \code{method = "paf"} is the same as Achim's (2017) NESTip.
 }
 \section{Generic function}{
 

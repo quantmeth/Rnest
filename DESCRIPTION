@@ -21,4 +21,5 @@ Imports:
   fungible (>= 2.3),
   MASS (>= 7.3-58.1),
   lavaan (>= 0.6),
-  mvtnorm (>= 1.1)
+  mvtnorm (>= 1.1),
+  cli (>= 3.6.4)

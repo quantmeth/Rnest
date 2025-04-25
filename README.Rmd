@@ -2,6 +2,8 @@
 output: github_document
 bibliography: "inst/ma.bib"
 csl: "inst/apa.csl"
+nocite: |
+  @Achim20, @Achim17
 ---
 
 ```{r setup, include = FALSE, warning=FALSE, comment = FALSE}
@@ -35,9 +37,9 @@ knitr::knit_hooks$set(imgcenter = function(before, options, envir){
 
 # Rnest: An R package for the Next Eigenvalue Sufficiency Test
 
-The library `Rnest` offers the Next Eigenvalue Sufficiency Tests (NEST) [@Achim17; @Achim20] to determine the number of dimensions in exploratory factor analysis. It provides a main function `nest()` to carry the analysis and a `plot()` function. It has been showed to amongst the best stopping rule to determine the nuber of factor in factor analysis [@Achim21;@Caron25;@Bran24].
+The library `Rnest` offers the Next Eigenvalue Sufficiency Tests (NEST; Achim, 2017; 2020) to determine the number of dimensions in exploratory factor analysis. It provides a main function `nest()` to carry the analysis, a `plot()` function a many utilit. It has been showed to amongst the best stopping rule to determine the nuber of factor in factor analysis [@Achim21;@Caron25;@Bran24].
 
-There is many examples of correlation matrices available with the packages and other stopping rules as well, such as `pa()` for parallel analysis or `MAP()` for minimum average partial correlation.
+There is many examples of correlation matrices available with the packages and other stopping rules as well, such as `PA()` for parallel analysis or `MAP()` for minimum average partial correlation.
 
 As of version `1.0`, `Rnest` is compatible with the `tidyverse` and the `%>%`.
 
