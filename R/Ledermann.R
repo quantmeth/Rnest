@@ -26,6 +26,6 @@ Ledermann <- function(p){
   dof <- function(nv, i = 0:nv){
     (nv-i)*(nv-i-1)/2 - i
   }
-  max(which(dof(nv,0:nv)>(nv/2)))-1
+  max(which(dof(nv,0:nv)>(nv/2)))
 }
 

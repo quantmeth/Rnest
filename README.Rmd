@@ -6,7 +6,7 @@ nocite: |
   @Achim20, @Achim17
 ---
 
-```{r setup, include = FALSE, warning=FALSE, comment = FALSE}
+```{r setup, include = FALSE, warning = FALSE, comment = FALSE}
 #library(Rnest)
 devtools::load_all()
 set.seed(42)
@@ -117,14 +117,13 @@ nest(ex_4factors_corr, n = 240)
 The `nest()` function can use with many $\alpha$ values and presents parallel analysis results if desired.
 
 ```{r plot2, fig.cap="Scree plot of NEST with many $\\alpha$", imgcenter='center'}
-res <- nest(ex_4factors_corr, n = 120, alpha = c(.01,.025,.05,.1))
+res <- nest(ex_4factors_corr, n = 120, alpha = c(.01,.025,.05))
 plot(res, pa = TRUE)
 ```
 # Recommended usage
 
 Recommended usage : fiml estimation for correlation matrix and removing unique variables.
-
-```{r, warning = FALSE, message = FALSE}
+```{r tidynest, warning = FALSE, message = FALSE}
 library(dplyr)
 ex_3factors_doub_unique %>%
   genr8(n = 200) %>%        # to generate simulated data for the example

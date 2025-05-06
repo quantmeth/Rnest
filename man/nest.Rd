@@ -13,7 +13,9 @@ nest(
   alpha = 0.05,
   max.fact = NULL,
   method = "ml",
-  na.action = "fiml"
+  missing = "fiml",
+  cluster = NULL,
+  ordered = NULL
 )
 }
 \arguments{
@@ -31,7 +33,11 @@ nest(
 
 \item{method}{a method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.}
 
-\item{na.action}{how should missing data be removed. \code{"na.omit"} removes complete rows with at least one single missing data. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are \code{"everything"}, \code{"all.obs"}, \code{"complete.obs"}, \code{"na.or.complete"}, or \code{"pairwise.complete.obs"}. Default is \code{"fiml"}.}
+\item{missing}{how should missing data be removed. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are \code{"ml"}, \code{"pairwise"}, \code{"listwise"}. Default is \code{"fiml"}.}
+
+\item{cluster}{a (single) variable name in the data frame defining the clusters in a two-level dataset.}
+
+\item{ordered}{a character vector to treat the variables as ordered (ordinal) variables. If TRUE, all observed endogenous variables are treated as ordered (ordinal).}
 }
 \value{
 \code{nest()} returns an object of class \code{nest}. The functions \code{summary} and \code{plot} are used to obtain and show a summary of the results.

@@ -4,10 +4,10 @@
 \alias{shem}
 \title{Split-Half Eigenvector Matching (SHEM)}
 \usage{
-shem(data, nIts = 30)
+shem(.data, nIts = 30)
 }
 \arguments{
-\item{data}{a data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.}
+\item{.data}{a data frame, a numeric matrix, covariance matrix or correlation matrix from which to determine the number of factors.}
 
 \item{nIts}{number of iterations.}
 }

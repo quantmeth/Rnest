@@ -85,7 +85,7 @@ summary(res)
 ```
 
     ## 
-    ## nest 1.0 ended normally  
+    ## nest 1.1 ended normally  
     ##  
     ##    Estimator                       ML 
     ##    Missing data treatment          FIML 
@@ -148,7 +148,7 @@ parallel analysis results if desired.
 <p align="center">
 
 ``` r
-res <- nest(ex_4factors_corr, n = 120, alpha = c(.01,.025,.05,.1))
+res <- nest(ex_4factors_corr, n = 120, alpha = c(.01,.025,.05))
 plot(res, pa = TRUE)
 ```
 
@@ -178,7 +178,7 @@ ex_3factors_doub_unique %>%
   plot(pa = TRUE)
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/tidynest-1.png" style="display: block; margin: auto;" />
 
 # How to cite
 

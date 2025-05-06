@@ -6,17 +6,17 @@
 \title{Parallel analysis}
 \usage{
 pa(
-  data = NULL,
+  .data = NULL,
   n = NULL,
   nv = NULL,
   nreps = 1000,
   alpha = 0.05,
-  crit = NULL,
-  ...
+  ...,
+  crit = NULL
 )
 }
 \arguments{
-\item{data}{a data.frame.}
+\item{.data}{a data.frame.}
 
 \item{n}{the number of subjects.}
 
@@ -26,9 +26,9 @@ pa(
 
 \item{alpha}{type I error rate.}
 
-\item{crit}{critical values to compare the eigenvalues.}
+\item{...}{other arguments.}
 
-\item{...}{other arguments}
+\item{crit}{critical values to compare the eigenvalues to.}
 }
 \value{
 nfactors (if data is supplied) and sampled eigenvalues
@@ -37,7 +37,18 @@ nfactors (if data is supplied) and sampled eigenvalues
 Parallel analysis
 }
 \examples{
+# To get the number of factors to retain
+# from a correlation matrix
 pa(ex_2factors, n = 42)
+
+# from a data set
+jd <- genr8(n = 404, R = ex_4factors_corr)
+pa(jd)
+
+# from a nest output
+pa(nest(ex_2factors, n = 42))
+
+# To get the 95th critical eigenvalues
 pa(n = 10, nv = 2, nreps = 100)
 }
 \references{

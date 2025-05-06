@@ -8,7 +8,9 @@
 #' @param alpha a vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.
 #' @param max.fact an optional maximum number of factor to extract. Default is \code{NULL}, so the maximum number possible.
 #' @param method a method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.
-#' @param na.action how should missing data be removed. \code{"na.omit"} removes complete rows with at least one single missing data. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are \code{"everything"}, \code{"all.obs"}, \code{"complete.obs"}, \code{"na.or.complete"}, or \code{"pairwise.complete.obs"}. Default is \code{"fiml"}.
+#' @param missing how should missing data be removed. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are \code{"ml"}, \code{"pairwise"}, \code{"listwise"}. Default is \code{"fiml"}.
+#' @param cluster a (single) variable name in the data frame defining the clusters in a two-level dataset.
+#' @param ordered a character vector to treat the variables as ordered (ordinal) variables. If TRUE, all observed endogenous variables are treated as ordered (ordinal).
 #' @param ... arguments for \code{method} that can be supplied. See details.
 #'
 #' @details 
@@ -60,7 +62,9 @@
 #' @examples
 #' nest(ex_2factors, n = 100)
 #' nest(mtcars)
-nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = NULL, method = "ml", na.action = "fiml"){
+nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = NULL, method = "ml", missing = "fiml", cluster = NULL, ordered = NULL){
+  
+  R <- list()
   
   if(!(is.matrix(.data) || is.data.frame(.data) || is.array(.data))){
     ls <- .data
@@ -71,11 +75,82 @@ nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = NUL
     }
   }
   
-  R <- prepare.nest(.data, n = n, na.action = na.action, ...)
+  if(!(cluster %in% colnames(.data)) && !is.null(cluster)){
+    cluster <- NULL
+    warning("Cluster variable ", cluster," is not found in .data. Cluster is ignored.")
+    cluster <- NULL
+  }
+  if((!any(ordered %in% colnames(.data))) && ((!is.null(ordered)) * (!is.logical(ordered)))){
+    if(length(ordered) == 1){
+      warning("The ordered variable ", ordered ," was not found in .data. Ordered is ignored.")
+    } else {
+      warning("The ordered variables ", ordered ," were not found in .data. Ordered is ignored.")
+    }
+    ordered <- NULL
+  }
+  
+  if(nrow(.data) == ncol(.data)){
+    
+    if(!is.null(cluster)){
+      .d2 <- as.matrix(.data[which(!(colnames(.data) %in% cluster)), which(!(colnames(.data) %in% cluster))])
+    } else {
+      .d2 <- as.matrix(.data)
+    }
+    
+    if(isSymmetric(.d2, check.attributes = FALSE)){
+      
+      if(!is.null(cluster)) warning("cluster is ignored with covariance matrix.")
+      if(!is.null(cluster)) warning("ordered is ignored with covariance matrix.")
+      
+      if(is.null(n)){
+        stop("Argument \"n\" is missing with covariance matrix.")
+      } else {
+        R$n <- n
+      }
+      if(all(diag(.data) == 1)){
+        R$cor <- .d2
+      } else {
+        R$cor <-  cov2cor(.d2)
+      }
+    }
+  }
+  
+  if(anyNA(.data)){
+    if(missing %in% c("ml", "fiml", "two.stage", "robust.two.stage","listwise","pairwise","direct",
+                      "ml.x","fiml.x","direct.x","available.cases","doubly.robust")){
+      warning("The value of missing does not match a possible argument. It is overwritten to \"listwise\".")
+      missing <- "listwise"
+    }
+  }
+  
+  if(is.null(n) || is.null(R$n)){
+    R$cor <- cor_nest(.data = .data, 
+                      ordered = ordered, 
+                      missing = missing, 
+                      cluster = cluster, 
+                      ...)$covmat
+    
+    R$n <- nrow(.data)
+    if(R$n != n && !is.null(n)) warning("The value of n does not match the number of rows in .data. It is overwritten to ",R$n,".")
+    
+  } else {
+    
+    R$n <- n
+    
+  }
+  
+  nv <- ncol(R$cor)
+  R$values <- t(as.matrix(eigen(R$cor, symmetric = TRUE)$values))
+  
+  if((length(Re(R$values)) != nv) && (sum(R$values) != nv) && all(R$values > 0)){
+    stop("Correlation matrix is not positive semi definite.")
+  }
+  
+  #R <- prepare.nest(.data, n = n, missing = missing, ...)
   
   R$alpha <- alpha
   R$method <- method
-  R$na.action <- na.action 
+  R$na.action <- missing
   R$nreps <- nreps
   R$Eig <- list()
   R$prob <- numeric()
@@ -86,9 +161,17 @@ nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = NUL
   CI <- nf$CI
   R$alpha <- nf$alpha
   R$convergence <- TRUE
-  if(is.null(max.fact)) max.fact <- .max.fact(ncol(R$cor))
+  if(is.null(max.fact)) {
+    max.fact <- .max.fact(ncol(R$cor))
+  } else {
+    if(max.fact > .max.fact(ncol(R$cor))){
+      max.fact <- .max.fact(ncol(R$cor))
+      warning("max.fact is too high. It is overwritten to ", max.fact,".")
+    }
+  }
   
   for (i in 0:max.fact){
+    #cat(i)
     if(all(!test.eig)) {
       
       break
@@ -101,14 +184,16 @@ nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = NUL
         
       } else {
         
-        tryCatch({
+        R$convergence <- tryCatch({
           M <- do.call(method[[1]],
                        list(covmat = R$cor,
                             n = R$n,
                             factors = i,
-                            ...))
+                            ...
+                       ))
+          TRUE
         }, error = function(e){
-          R$convergence <- FALSE
+          FALSE
         })
         
         if(!R$convergence) break
@@ -139,51 +224,51 @@ nest <- function(.data, ..., n = NULL, nreps = 1000, alpha = .05, max.fact = NUL
 }
 
 # prepare.nest ####
-prepare.nest <- function(data, n = NULL, na.action = "fiml", ...){
-  
-  data <- as.matrix(data)
-  out <- list()
-  
-  if(isSymmetric(data, check.attributes = FALSE) ){
-    
-    if(all(diag(data) == 1)){
-      out$cor <- data
-    }else{
-      out$cor <-  cov2cor(data)
-    }
-    
-    if(is.null(n)){
-      stop("Argument \"n\" is missing with covariance matrix.")
-    } else {
-      out$n <- n
-    }
-  } else {
-    if(anyNA(data)){
-      # TODO
-      # to opt
-      if(na.action == "fiml") {
-        out$cor <- cor_nest(.data = data, ...)$covmat
-      } else if (na.action == "na.omit"){
-        out$cor <- cor(na.omit(data))
-      } else {
-        out$cor <- cor(data, use = na.action)
-      }
-    } else {
-      out$cor <- cor(data)
-    }
-    
-    out$n <- nrow(data)
-  }
-  
-  p <- ncol(data)
-  out$values <- t(as.matrix(eigen(out$cor, symmetric = TRUE)$values))
-  
-  if((length(Re(out$values)) != p) && (sum(out$values) != p)){
-    stop("Correlation matrix is not positive semi definite")
-  }
-  
-  return(out)
-}
+# prepare.nest <- function(data, n = NULL, na.action = "fiml", ...){
+#   
+#   data <- as.matrix(data)
+#   out <- list()
+#   
+#   if(isSymmetric(data, check.attributes = FALSE) ){
+#     
+#     if(all(diag(data) == 1)){
+#       out$cor <- data
+#     }else{
+#       out$cor <-  cov2cor(data)
+#     }
+#     
+#     if(is.null(n)){
+#       stop("Argument \"n\" is missing with covariance matrix.")
+#     } else {
+#       out$n <- n
+#     }
+#   } else {
+#     if(anyNA(data)){
+#       # TODO
+#       # to opt
+#       if(na.action == "fiml") {
+#         out$cor <- cor_nest(.data = data, ...)$covmat
+#       } else if (na.action == "na.omit"){
+#         out$cor <- cor(na.omit(data))
+#       } else {
+#         out$cor <- cor(data, use = na.action)
+#       }
+#     } else {
+#       out$cor <- cor(data)
+#     }
+#     
+#     out$n <- nrow(data)
+#   }
+#   
+#   p <- ncol(data)
+#   out$values <- t(as.matrix(eigen(out$cor, symmetric = TRUE)$values))
+#   
+#   if((length(Re(out$values)) != p) && (sum(out$values) != p)){
+#     stop("Correlation matrix is not positive semi definite")
+#   }
+#   
+#   return(out)
+# }
 
 
 # .reig ####
@@ -197,23 +282,28 @@ prepare.nest <- function(data, n = NULL, na.action = "fiml", ...){
 # .paf ####
 .paf <- function(covmat, factors, convergence = 1e-7, maxit = 500, ...){
   
+  S <- covmat
+  
   for (jj in 1:maxit){
     
-    res <- eigen(covmat, symmetric = TRUE)
-    ld <- res$vectors[,1:factors] %*% diag(sqrt(res$values[1:factors]), ncol = ncol(covmat))
+    res <- eigen(S, symmetric = TRUE)
+    ld <- res$vectors[,1:factors] %*% diag(sqrt(res$values[1:factors]), ncol = factors)
     co <- rowSums(ld^2)
     
     # Check communalities
     
-    diff <- diag(covmat) - co
+    diff <- diag(S) - co
     
     # Check if convergence is met
-    if (all(abs(diff) < convergence)) break
+    if (all(abs(diff) < convergence) && all(1-co >= convergence)) break
     
-    covmat <- covmat - diag(diff)
+    S <- S - diag(diff)
   }
   
-  if(any(abs(diff) > convergence)) warning("Convergence not met.")
+  if(any(abs(diff) > convergence)) stop("Convergence not met in the ",factors," factor model.\n")
+  if(any(1-co <= convergence)) stop("Communality overflow in the ",factors," factor model.\n")
+  if(maxit == jj) stop("Convergence not met in the ",factors," factor model.\n")
+  
   return(list(loadings = ld, uniquenesses = 1-co))
   
 }
