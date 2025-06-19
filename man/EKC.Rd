@@ -24,6 +24,9 @@ The number of factors to retain or the crititical eigenvalues.
 \description{
 Empirical Kaiser Criterion (EKC)
 }
+\note{
+As Rnest version >= 1.2, a correction to EKC was done which was reported by Marcel van Assen (personnal communication, june 2025), which was found in Rnest and other packages as well. There was a confusion in the sample and critical eigenvalues in equation 2 (Braeken & van Assen, 2017, p. 454).
+}
 \examples{
 EKC(ex_4factors_corr, n = 42)
 }

@@ -54,7 +54,7 @@
 #'
 #' @import stats
 #' @import EFA.MRFA
-#' @import fungible
+#' @importFrom fungible fareg
 #' @export  
 #' 
 #' @aliases NEST

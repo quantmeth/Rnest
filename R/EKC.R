@@ -9,6 +9,8 @@
 #' @return The number of factors to retain or the crititical eigenvalues.
 #' @export
 #' 
+#' @note As Rnest version >= 1.2, a correction to EKC was done which was reported by Marcel van Assen (personnal communication, june 2025), which was found in Rnest and other packages as well. There was a confusion in the sample and critical eigenvalues in equation 2 (Braeken & van Assen, 2017, p. 454).
+#' 
 #' @aliases ekc
 #'
 #' @references 
@@ -43,8 +45,10 @@ EKC <- function(.data = NULL, n = NULL, nv = NULL, lowest.eig = 1, ...){
 
   crit <- as.numeric()
   for(i in 1:nv){
-    crit[i] <- max(((1 + sqrt(nv / n)) ^ 2) * (nv - sum(crit))/(nv - i + 1), lowest.eig)
-  }
+    #crit[i] <- max(((1 + sqrt(nv / n)) ^ 2) * (nv - sum(crit)) / (nv - i + 1), lowest.eig)
+    # which one?
+    crit[i] <- max(((1 + sqrt(nv / n)) ^ 2) * (nv - sum(E[0:(i-1)])) / (nv - i + 1), lowest.eig)
+    }
   if(!is.null(.data)){
     nfact <- min(which(E < crit))-1
   } else {
