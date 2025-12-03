@@ -7,7 +7,7 @@
 #' @param nreps the number of replications to derive the empirical probability distribution of each eigenvalue. Default is 1000.
 #' @param alpha a vector of type I error rates or \code{(1-alpha)*100\%} confidence intervals. Default is .05.
 #' @param max.fact an optional maximum number of factor to extract. Default is \code{NULL}, so the maximum number possible.
-#' @param method a method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.
+#' @param method a method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods. The regularized common factor analysis \code{method = "rcfa"} is depreceated from version 1.3. 
 #' @param missing how should missing data be removed. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are \code{"ml"}, \code{"pairwise"}, \code{"listwise"}. Default is \code{"fiml"}.
 #' @param cluster a (single) variable name in the data frame defining the clusters in a two-level dataset.
 #' @param ordered a character vector to treat the variables as ordered (ordinal) variables. If TRUE, all observed endogenous variables are treated as ordered (ordinal).
@@ -54,7 +54,6 @@
 #'
 #' @import stats
 #' @import EFA.MRFA
-#' @importFrom fungible fareg
 #' @export  
 #' 
 #' @aliases NEST
@@ -326,7 +325,7 @@ mrfa <- function(covmat, n, factors, ...){
 }
 
 rcfa <- function(covmat, n, factors, ...){
-  fa <- fungible::fareg(R = covmat, numFactors =  factors)
+  fa <- fareg(R = covmat, numFactors =  factors)
   list(loadings = fa$loadings, uniquenesses = 1-fa$h2)
 }
 

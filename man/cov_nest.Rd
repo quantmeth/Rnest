@@ -5,9 +5,9 @@
 \alias{cor_nest}
 \title{Compute covariance or correlation matrix with treatments for clusters and missing values}
 \usage{
-cor_nest(.data, ..., cluster = NULL, missing = "fiml", ordered = FALSE, pvalue = FALSE)
+cor_nest(.data, ..., cluster = NULL, missing = "fiml", ordered = NULL, pvalue = FALSE)
 
-cov_nest(.data, ..., cluster = NULL, missing = "fiml", ordered = FALSE, pvalue = FALSE)
+cov_nest(.data, ..., cluster = NULL, missing = "fiml", ordered = NULL, pvalue = FALSE)
 }
 \arguments{
 \item{.data}{a data frame, a numeric matrix.}
@@ -18,7 +18,7 @@ cov_nest(.data, ..., cluster = NULL, missing = "fiml", ordered = FALSE, pvalue =
 
 \item{missing}{treatment to deal with missing values. Options are \code{"listwise"} or \code{"pairwise"}. Default if \code{"fiml"}.}
 
-\item{ordered}{a character vector identifying which variables have an ordered (ordinal) scale. If \code{TRUE}, all observed endogenous variables are treated as ordered (ordinal). If \code{FALSE}, all observed endogenous variables are considered to be numeric}
+\item{ordered}{a character vector identifying which variables have an ordered (ordinal) scale. If \code{TRUE}, all observed endogenous variables are treated as ordered (ordinal). If \code{NULL}, all observed endogenous variables are considered to be numeric.}
 
 \item{pvalue}{an argument to indicate if \eqn{p}-values are required.}
 }

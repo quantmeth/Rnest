@@ -31,7 +31,7 @@ nest(
 
 \item{max.fact}{an optional maximum number of factor to extract. Default is \code{NULL}, so the maximum number possible.}
 
-\item{method}{a method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), regularized common factor analysis \code{method = "rcfa"}, minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods.}
+\item{method}{a method used to compute loadings and uniquenesses. Four methods are implemented in \code{Rnest} : maximum likelihood \code{method = "ml"} (default), minimum rank factor analysis \code{method = "mrfa"}, and principal axis factoring \code{method = "paf"}. See details for custom methods. The regularized common factor analysis \code{method = "rcfa"} is depreceated from version 1.3.}
 
 \item{missing}{how should missing data be removed. \code{"fiml"} uses full information maximum likelihood to compute the correlation matrix. Other options are \code{"ml"}, \code{"pairwise"}, \code{"listwise"}. Default is \code{"fiml"}.}
 

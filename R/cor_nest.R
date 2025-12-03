@@ -4,11 +4,11 @@
 #' @param ... further arguments.
 #' @param cluster a variable name defining the clusters in a two-level dataset in the data frame.
 #' @param missing treatment to deal with missing values. Options are \code{"listwise"} or \code{"pairwise"}. Default if \code{"fiml"}.
-#' @param ordered a character vector identifying which variables have an ordered (ordinal) scale. If \code{TRUE}, all observed endogenous variables are treated as ordered (ordinal). If \code{FALSE}, all observed endogenous variables are considered to be numeric
+#' @param ordered a character vector identifying which variables have an ordered (ordinal) scale. If \code{TRUE}, all observed endogenous variables are treated as ordered (ordinal). If \code{NULL}, all observed endogenous variables are considered to be numeric.
 #' @param pvalue an argument to indicate if \eqn{p}-values are required.
 #'
-#' @usage cor_nest(.data, ..., cluster = NULL, missing = "fiml", ordered = FALSE, pvalue = FALSE)
-#' @usage cov_nest(.data, ..., cluster = NULL, missing = "fiml", ordered = FALSE, pvalue = FALSE)
+#' @usage cor_nest(.data, ..., cluster = NULL, missing = "fiml", ordered = NULL, pvalue = FALSE)
+#' @usage cov_nest(.data, ..., cluster = NULL, missing = "fiml", ordered = NULL, pvalue = FALSE)
 #' 
 #' @aliases cor_nest
 #' 
@@ -25,17 +25,20 @@
 #'
 #' @examples
 #' cov_nest(airquality)
-cov_nest <- function(.data, ..., cluster = NULL, missing = "fiml", ordered = FALSE, pvalue = FALSE){
+cov_nest <- function(.data, ..., cluster = NULL, missing = "fiml", ordered = NULL, pvalue = FALSE){
   
   .data <- as.data.frame(.data)
   nom <- colnames(.data)
   if(is.null(nom)) colnames(.data) <- nom <- paste0("v",1:ncol(.data))
   nom <- nom[!(nom %in% cluster)]
   #colnames(.data) <- nv <- paste0("v",1:ncol(.data))
-  nv <- combn(nom,2)
+  nv <- combn(nom, 2)
   
   mod <- paste0(paste0(nv[1,],"~~",nv[2,]), collapse = "\n")
-  fit <- lavaan::sem(mod, .data, missing = missing, cluster = cluster, warn = FALSE, ...)
+  
+  if(!is.null(ordered)) missing = "listwise"
+  
+  fit <- lavaan::sem(mod, .data, missing = missing, cluster = cluster, warn = FALSE, ordered = ordered, ...)
   S <- lavaan::lavInspect(fit, c("cov.ov"))[]
   n <- lavaan::lavInspect(fit, c("nobs"))
   
@@ -59,7 +62,7 @@ cov_nest <- function(.data, ..., cluster = NULL, missing = "fiml", ordered = FAL
 }
 
 #' @export
-cor_nest <- function(.data, ..., cluster = NULL, missing = "fiml", ordered = FALSE, pvalue = FALSE){
+cor_nest <- function(.data, ..., cluster = NULL, missing = "fiml", ordered = NULL, pvalue = FALSE){
   out <- cov_nest(.data, ..., cluster = cluster, missing = missing, pvalue = pvalue)
   out$covmat <- cov2cor(out$covmat)
   out
